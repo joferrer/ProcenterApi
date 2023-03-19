@@ -1,6 +1,9 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors')
+const cors = require('cors');
+const {funcionPrueba} = require('./routes/Vehiculos/prueba');
+
+
 
 const app = express();
 app.use(express.json());
@@ -15,7 +18,10 @@ app.get('/', (req,res)=>{
 
 app.listen(PORT, ()=>{
     console.log(`Sevidor corriendo en el puerto ${PORT}`);
+    funcionPrueba();
 })
+
+
 
 
 

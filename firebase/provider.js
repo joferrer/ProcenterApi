@@ -1,11 +1,11 @@
 
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
+const { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, updateProfile } = require( 'firebase/auth')
 
-import { FireBaseAuth } from './config';
+const { FireBaseAuth } = require( './config')
 
 const googleProvider = new GoogleAuthProvider();
 
-export const singInWithGoogle = async ()=>{
+ const singInWithGoogle = async ()=>{
 
     try{
         const result = await signInWithPopup( FireBaseAuth, googleProvider );
@@ -35,7 +35,7 @@ export const singInWithGoogle = async ()=>{
 
 }
 
-export const registerUserWithEmailPassword = async ({email,password,displayName})=>{
+ const registerUserWithEmailPassword = async ({email,password,displayName})=>{
 
     try {
         
@@ -65,7 +65,7 @@ export const registerUserWithEmailPassword = async ({email,password,displayName}
 
 }
 
-export const loginWithEmailPassword = async({email, password})=>{
+ const loginWithEmailPassword = async({email, password})=>{
 
     try {
         const resp = await signInWithEmailAndPassword(FireBaseAuth, email, password);
@@ -90,7 +90,15 @@ export const loginWithEmailPassword = async({email, password})=>{
 
 }
 
-export const logoutFireBase = async()=>{
+ const logoutFireBase = async()=>{
 
     return await FireBaseAuth.signOut();
+}
+
+const probando = ()=>{
+    console.log('Probando el export de modulos! ... Funcina!! :D \n')
+}
+
+module.exports = {
+    probando
 }
