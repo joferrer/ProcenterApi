@@ -5,7 +5,7 @@ const { FireBaseAuth } = require( './config')
 
 const googleProvider = new GoogleAuthProvider();
 
- const singInWithGoogle = async ()=>{
+const singInWithGoogle = async ()=>{
 
     try{
         const result = await signInWithPopup( FireBaseAuth, googleProvider );

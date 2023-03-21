@@ -13,6 +13,7 @@ const funcionPrueba = ()=>{
         modelo: 'TRACKER'
     })
 
+
     console.log(`Vehiculo: \n ${JSON.stringify(nuevoVehiculo)} `)
 }
 
