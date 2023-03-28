@@ -24,8 +24,11 @@ Este proyecto es la capa de Back End del proyecto ProcenterAutos web, que ofrece
 ### instalacion
 
 ### uso
+Actualmente abres una ** instancia de la consola de comando  y ejecutas la siguiente linea de codigo:
+</br>
+<code>node index.js</code>
 
-
+> Recuerda que para que nuestro proyecto se ejecute normalmente, debes tener instalado el [Framework de Node.js](https://nodejs.org/es)
 ### autores
 
 
