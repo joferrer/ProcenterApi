@@ -23,10 +23,15 @@ Este proyecto es la capa de Back End del proyecto ProcenterAutos web, que ofrece
 
 ### instalacion
 
+Para ejecutar nuestro proyecto debes tener instalado [NodeJS con NPM](https://nodejs.org/es/download), el primer paso es clonar el repositorio usando una ** ventana de comando de Git ** donde  utilizamos el siguiente comando:
+<code>git clone https://github.com/joferrer/ProcenterApi.git</code>
+
+Nos vamos a la carpeta donde clonamos el repositorio, abrimos el proyecto en Visual Studio Code y tipeamos la instalacion de los modulos esenciales de NodeJS del proyecto, simplemente desde la terminal de VSCode aplicamos la siguiente linea:
+<code>npm i</code>
 ### uso
 Actualmente abres una ** instancia de la consola de comando  y ejecutas la siguiente linea de codigo:
 </br>
-<code>node app.js</code>
+<code>npm start</code>
 
 > Recuerda que para que nuestro proyecto se ejecute normalmente, debes tener instalado el [Framework de Node.js](https://nodejs.org/es)
 ### autores
