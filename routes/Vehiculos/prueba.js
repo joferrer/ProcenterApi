@@ -1,8 +1,9 @@
-const{probando} = require('../../firebase/provider');
+
+const{ probando } = require('../../firebase/provider');
 const Vehiculo = require('../../schemas/SchemaVehiculo');
 
 //Probando los schemas 
-const funcionPrueba = ()=>{
+const funcionPrueba = () =>{
     console.log('Prueba...\n');
     probando();
 

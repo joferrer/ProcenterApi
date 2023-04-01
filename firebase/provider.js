@@ -95,7 +95,7 @@ const singInWithGoogle = async ()=>{
     return await FireBaseAuth.signOut();
 }
 
-const probando = ()=>{
+const probando = () =>{
     console.log('Probando el export de modulos! ... Funcina!! :D \n')
 }
 
