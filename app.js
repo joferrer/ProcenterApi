@@ -4,27 +4,22 @@ const cors = require('cors');
 const {funcionPrueba} = require('./routes/Vehiculos/prueba');
 const {} = require('./app');
 
-
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
 
 
-
-const admin = require("firebase-admin");
-const credentials = require("./firebase/key.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(credentials)
+//Global Variables
+app.use((req, res, next) => {
+  app.locals.db = req.db;
+  next();
 });
 
-//arreglar
-
 //routes
-app.use(require('/','./routes/index'));
-app.use(require('/','./routes/Vehiculos/vehiculos'));
-
+app.use(require('./routes'));
+app.use(require('./routes/Vehiculos/vehiculos'));
+app.use(require('./routes/Usuarios/usuarios'));
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, ()=>{
