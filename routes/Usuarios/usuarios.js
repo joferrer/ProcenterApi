@@ -9,7 +9,11 @@ router.post('/catalog',(req,res)=>{
     res.send('Se ejecuto post')
 });
 router.get('/catalog',(req,res)=>{
-    res.send('Se ejecuto get')
+    res.json(
+        {
+            "ok":true,
+            "token":"elpepe"}
+        )
 });
 
 module.exports = router;
