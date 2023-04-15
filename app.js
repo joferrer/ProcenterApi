@@ -19,6 +19,8 @@ app.use((req, res, next) => {
 app.use(require('./routes'));
 app.use(require('./routes/Vehiculos/Vehiculos'));
 app.use(require('./routes/Usuarios/usuarios'));
+app.use(require('./routes/Usuarios/registro'));
+
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, ()=>{

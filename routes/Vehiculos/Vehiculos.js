@@ -3,8 +3,8 @@ const router = express.Router();
 const { db } = require('../../firebase/providerFirestore');
 
 
-//Obtain a list of vehicle of the collection "Vehicules"
-router.get('/getVehicles', async(req, res) => {
+//Obtiene una lista de todos los Vehiculos del Catalogo
+router.get('/catalogo', async(req, res) => {
     try {
         const userRef = db.collection("vehiculos");
         const response = await userRef.get();
@@ -20,22 +20,36 @@ router.get('/getVehicles', async(req, res) => {
     }
 });
 
-//Insert a new vehicle in the database
-router.post('/addVehicles', async(req, res) => {
-    try{
-        //Metodo para obtener el ultimo elemento de id del vehiculo y sumar +1 unidad
-        const userRef = db.collection("vehiculos");
-        const lastDoc = ((await userRef.orderBy('nombre').limit(1).get()).docs[0])._fieldsProto.idveh.integerValue;
-        const newIdVeh = parseInt(lastDoc) + 1;
-        //console.log(newIdVeh);
 
-        const id = newIdVeh.toString();
+//Muestra un vehiculo especifico usando la ID/PLACA en especifico
+router.get('/catalogo/:id', async (req, res)=>{
+    try {
+        const usersRef = db.collection("vehiculos").doc(req.params.id);
+        const response = await usersRef.get();
+        res.send(response.data());
+    }catch(error){
+        res.send(error);
+        }
+});
 
-        //Cuerpo de la peticion POST para agregar un nuevo vehiculo
+
+//Agrega un nuevo vehiculo al catalogo
+router.post('/agregarVehiculo', async(req, res) => {
+    try{    
+        const id = req.body.placaid
         const vehJson ={
-            idveh: newIdVeh,
-            marca: req.body.nombre
+            placa: req.body.placaid,
+            marca: req.body.marca,
+            modelo: req.body.modelo,
+            anio: req.body.anio,
+            motor: req.body.motor,
+            color: req.body.color,
+            rin: req.body.rin,
+            img: req.body.img,
+            lugarm: req.body.lugarm,
+            otro: req.body.otro
         };
+        console.log(vehJson);
         const vehRef = await db.collection("vehiculos").doc(id).set(vehJson);
         res.send("Vehiculo agregado correctamente")
         res.status(200);
@@ -43,17 +57,35 @@ router.post('/addVehicles', async(req, res) => {
 
     catch(error){
         console.error(error);
+        res.status(404);
     }
 });
 
-//Update a vehicle in the database using the id atribute
-router.post('/updateVehicles', async (req, res) => {
+//Actualizando un vehiculo usando la ID
+router.post('/actualizarVehiculo/:id', async (req, res) => {
     try {
-        const idveh= req.body.idveh;
-        const newNombre =  req.body.nombre;
-        const vehRef = await db.collection("vehiculos").doc(idveh)
-        .update({
-            nombre: newNombre
+        
+        const nplaca= req.params.id
+        const nmarca= req.body.marca
+        const nmodelo= req.body.modelo
+        const nanio= req.body.anio
+        const nmotor= req.body.motor
+        const ncolor= req.body.color
+        const nrin= req.body.rin
+        const nimg= req.body.img
+        const lugarm= req.body.lugarm
+        const notro= req.body.otro
+        const nvehRef = await db.collection("vehiculos").doc(req.params.id).update({
+            placa: nplaca,
+            marca: nmarca,
+            modelo: nmodelo,
+            anio: nanio,
+            motor: nmotor,
+            color: ncolor,
+            rin: nrin,
+            img: nimg,
+            lugarm: lugarm,
+            otro: notro
         });
         res.send("Vehiculo actualizado correctamente")
         res.status(200);
