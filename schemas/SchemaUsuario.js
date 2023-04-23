@@ -1,13 +1,11 @@
 class Usuario{
     constructor(_usuario){
-        id = _usuario.id
-        nombre = _usuario.nombre
-        apellido = _usuario.apellido
-        correo = _usuario.correo
-        imagen = _usuario.imagen
-        contrasena = _usuario.contrasena
-        telefono = _usuario.telefono
-        rol = _usuario.rol    
+        this.id = _usuario.id;
+        this.nombre = _usuario.nombre;
+        this.correo = _usuario.correo;
+        this.imagen = _usuario.imagen;
+        this.telefono = _usuario.telefono;
+        this.rol = _usuario.rol;
     }
 }
 
