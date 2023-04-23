@@ -1,4 +1,4 @@
-import fs from "fs";
+const fs = require('fs');
 
 async function descargarImagen(uri, path, filename) {
     const response = await fetch(uri);
