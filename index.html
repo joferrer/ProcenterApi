@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="https://em-content.zobj.net/source/microsoft-teams/337/bomb_1f4a3.png"
+        type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+        integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend&display=swap" rel="stylesheet">
+    <title>API backend</title>
+</head>
+<style>
+    .body {
+        font-size: 13px;
+        padding: 100px 0 100px 0 !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .div1 {
+        width: 500px;
+    }
+    .div3{
+        text-align: center;
+    }
+
+    .form {
+        width: 100%;
+    }
+
+    .input {
+        width: 100%;
+    }
+
+    .center {
+        align-self: center;
+    }
+
+    h1>img {
+        margin-left: 30px;
+        width: 60px;
+        height: 60px;
+    }
+
+    td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 90px;
+    }
+    .div3 table.u-full-width {
+        table-layout: fixed;
+        width: 1400px;
+        
+    }
+    .div2 table.u-full-width {
+        table-layout: fixed;
+        width: 1200px;
+    }
+    .button{align-self: center;}
+    h1{
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div id="app" class="body">
+        <h1 class="center">Bienvenido API test<img
+                src="https://em-content.zobj.net/source/microsoft-teams/337/bomb_1f4a3.png" alt="bomb"></h1>
+        <!-- Seccion usuarios-->
+        <div class="div1">
+            <label class="form"> Formulario de agregar usuarios.</label>
+            <form @submit.prevent="agregarUsuario">
+                <label for="nombre">Nombre:</label>
+                <input class="input" v-model="nombre" type="text" id="nombre" name="nombre" required>
+
+                <label for="correo">Correo electrónico:</label>
+                <input class="input" v-model="correo" type="email" id="correo" name="correo" required>
+
+                <label for="imagen">Imagen de perfil:</label>
+                <input class="input" v-model="imagen" type="text" id="imagen" name="imagen" required>
+
+                <label for="telefono">Teléfono:</label>
+                <input class="input" v-model="telefono" type="text" id="telefono" name="telefono" required>
+
+                <label for="rol">Rol:</label>
+                <select v-model="rol" id="rol" name="rol" required>
+                    <option value="asesor">Asesor</option>
+                    <option value="admin">Administrador</option>
+                </select>
+                <hr>
+                <button class="button button-primary" type="submit">Agregar asesor</button>
+            </form>
+        </div>
+        <hr>
+        <div class="div2">
+            <h1>Usuarios</h1>
+            <table class="u-full-width">
+                <thead>
+                    <tr>
+                        <th v-for="n in labelUsuarios">{{n}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="u in usuarioLista">
+                        <td>{{ u.correo }}</td>
+                        <td>{{ u.imagen }}</td>
+                        <td>{{ u.telefono }}</td>
+                        <td>{{ u.nombre }}</td>
+                        <td>{{ u.rol }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <div class="div3">
+            <h1 v-if="vehiculosLista !== null">Vehiculos</h1>
+            <table class="u-full-width">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Año</th>
+                        <th>Color</th>
+                        <th>Placa</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="v in vehiculosLista">
+                        <td>{{ v.id }}</td>
+                        <td>{{ v.marca }}</td>
+                        <td>{{ v.modelo }}</td>
+                        <td>{{ v.anio }}</td>
+                        <td>{{ v.color }}</td>
+                        <td>{{ v.placa }}</td>
+                        <td>{{ v.precio }}</td>
+                    </tr>
+                </tbody>
+                
+            </table>
+            <button class="button" @click="actualizarCatalogo">Actualizar Catalogo</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        const app = Vue.createApp({
+            el: '#app',
+            data() {
+                return {
+                    //List usuario
+                    usuarioLista: [],
+                    labelUsuarios: [],
+                    //form usuario
+                    nombre: '',
+                    correo: '',
+                    imagen: '',
+                    telefono: '',
+                    rol: 'Seleccionar',
+                    //form Vehiculos
+
+                    //List Vehiculos
+                    vehiculosLista: [],
+                    labelVehiculos: []
+                }
+            },
+            created() {
+                axios.get('/usuario')
+                    .then(response => {
+                        return response.data
+                    })
+                    .then(data => {
+                        label = Object.keys(data[0]);
+                        this.labelUsuarios = label;
+                        this.usuarioLista = data
+                    });
+            },
+            mounted() {
+            },
+            methods: {
+                actualizarCatalogo() {
+                    axios.get('/catalogo')
+                        .then(response => {
+                            console.log(response.data);
+                            let autos = response.data;
+                            let labelVehiculos = Object.keys(autos[0]);
+                            labelVehiculos.slice(7);
+                            labelVehiculos.slice(9);
+
+                            this.labelVehiculos = labelVehiculos;
+                            console.log(this.labelVehiculos);
+                            this.vehiculosLista = autos;
+                        })
+                },
+                agregarUsuario() {
+                    const data = {
+                        nombre: this.nombre,
+                        correo: this.correo,
+                        imagen: this.imagen,
+                        telefono: this.telefono,
+                        rol: this.rol
+                    }
+                    fetch('/usuario', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    }).then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                        })
+                        .catch(error => {
+                            console.error(error)
+                        })
+                },
+                vehiculos() {
+                    fetch('/getVehicles')
+                        .then(response => response.json())
+                        .then(data => console.log(data))
+                        .catch(error => console.error(error));
+                },
+                mostrarAlerta(_mensaje) {
+                    let mensaje = _mensaje
+                    alert(this.mensaje);
+                }
+            }
+        });
+        app.mount('#app');
+    </script>
+
+</body>
+
+</html>
