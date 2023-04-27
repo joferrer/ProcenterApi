@@ -1,8 +1,17 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const {funcionPrueba} = require('./routes/Vehiculos/prueba');
 const {} = require('./app');
+const path = require('path')
+const { I18n } = require('i18n')
+
+const i18n = new I18n({
+  locales: ['en', 'es'],
+  directory: path.join(__dirname, 'locales')
+})
+
+
+
 
 const app = express();
 app.use(express.json());
@@ -16,20 +25,19 @@ app.use((req, res, next) => {
 });
 
 //routes
-app.use(require('./routes'));
-app.use(require('./routes/Vehiculos/Vehiculos'));
-app.use(require('./routes/Usuarios/usuarios'));
-app.use(require('./routes/Usuarios/registro'));
+app.use(require('./routes/vehiculos'));
+app.use(require('./routes/usuarios'));
+app.use(require('./routes/catalogo'));
 
+//Vista para el back (temporal)
+
+app.use(express.static(__dirname));
+const history = require('connect-history-api-fallback');
+app.use(history());
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, ()=>{
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
-    funcionPrueba();
-    console.log(`Ve a la ruta de vehiculos en localhost:${PORT}/vehiculos`);
+app.listen(PORT, () => {
+  console.log(i18n.__('Hello'))
+    console.log(`Servidor corriendo en localhost:${PORT}`);
 })
-
-
-
-
 
