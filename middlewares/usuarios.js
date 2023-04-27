@@ -1,7 +1,6 @@
 const { db, auth } = require("../firebase/providerFirestore");
 const admin = require("firebase-admin"); 
-const firebase = require("firebase/app");
-require("firebase/auth");
+
 
 async function registrarUsuario(req, res, next) {
   try {
