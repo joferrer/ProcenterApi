@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { db } = require('../../firebase/providerFirestore');
+const { db } = require('../firebase/providerFirestore');
 
 
 //Obtain a list of vehicle of the collection "Vehicules"
@@ -13,10 +13,10 @@ router.get('/getVehicles', async(req, res) => {
         response.forEach ( doc => {
             responseArr.push(doc.data());
         }); 
-        res.send(responseArr);
+        res.json(responseArr);
     }
     catch (error) {
-        res.send(error);
+        res.json(error);
     }
 });
 
