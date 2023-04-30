@@ -1,3 +1,5 @@
+'use strict';
+
 class Vehiculo {
     constructor(_vehiculo){
         this.id = _vehiculo.id;
