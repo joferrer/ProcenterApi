@@ -7,6 +7,7 @@ const {initializeApp} = require('firebase/app')
 
 
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyAOECbow8me5UhXPuzTJ0-h_qeKM8BBY1w",
   authDomain: "procenterapi.firebaseapp.com",

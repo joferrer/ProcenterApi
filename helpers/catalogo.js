@@ -1,27 +1,36 @@
-import { whatsappConfig, whatsappUrl } from "../whatsappCatalog/config.js";
+const { catalog , url } = require("../whatsappCatalog/config.js");
+const axios = require("axios");
 
 async function traerCatalogo() {
-    let productos = [];
-    try {
-      const response = await fetch(whatsappUrl, whatsappConfig);
-      const data = await response.json();
-      const products = data.data.xwa_product_catalog_get_product_catalog.product_catalog.products;
-  
-      products.forEach(item => {
-        let images = [];
-        item.media.images.forEach(image => {
-          images.push(image.original_image_url);
-        });
-        // Corregir
-        productos.push({ 'id': item.id, 'name': item.name, 'description': item.description, 'images': images, 'price': item.price });
+  let productos = [];
+  try {
+    const response = await axios.post(url,catalog);
+    const data = response.data;
+    const products =
+      data.data.xwa_product_catalog_get_product_catalog.product_catalog
+        .products;
+
+    products.forEach((item) => {
+      let images = [];
+      item.media.images.forEach((image) => {
+        images.push(image.original_image_url);
       });
-      return productos;
-  
-    } catch (error) {
-      throw new Error(error);
-    }
+
+      productos.push({
+        id: item.id,
+        name: item.name,
+        description: item.description,
+        images: images,
+        price: item.price,
+      });
+    });
+
+  return productos;
+  } catch (error) {
+    console.error(error);
   }
+}
 
 module.exports = {
-    traerCatalogo
-}
+  traerCatalogo,
+};
