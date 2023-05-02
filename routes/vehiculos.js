@@ -34,7 +34,7 @@ router.post('/addVehicles', async(req, res) => {
         //Cuerpo de la peticion POST para agregar un nuevo vehiculo
         const vehJson ={
             idveh: newIdVeh,
-            nombre: req.body.nombre
+            marca: req.body.nombre
         };
         const vehRef = await db.collection("vehiculos").doc(id).set(vehJson);
         res.send("Vehiculo agregado correctamente")
