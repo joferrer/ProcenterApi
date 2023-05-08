@@ -21,21 +21,38 @@ Este proyecto es la capa de Back End del proyecto ProcenterAutos web, que ofrece
 - [Autores](#autores)
 - [Licencia](#licencia)
 
-### instalacion
+## instalacion
 
-Para ejecutar nuestro proyecto debes tener instalado [NodeJS con NPM](https://nodejs.org/es/download), el primer paso es clonar el repositorio usando una ** ventana de comando de Git ** donde  utilizamos el siguiente comando:
+Para ejecutar nuestro proyecto debes tener instalado [NodeJS con NPM](https://nodejs.org/es/download) y [Git, Sistema de control de versiones](https://git-scm.com/)el primer paso es clonar el repositorio usando una ** ventana de comando de Git ** donde aplicaremos la siguiente linea de comando para elaborar una copia local del repositorio del proyecto:
 </br>
 <code>git clone https://github.com/joferrer/ProcenterApi.git</code>
 
-Nos vamos a la carpeta donde clonamos el repositorio, abrimos el proyecto en Visual Studio Code y tipeamos la instalacion de los modulos esenciales de NodeJS del proyecto, simplemente desde la terminal de VSCode aplicamos la siguiente linea:
+Luego, nos vamos a la carpeta donde clonamos el repositorio, abrimos el proyecto en Visual Studio Code y tipeamos la instalacion de los modulos esenciales de NodeJS del proyecto, simplemente desde la terminal de VSCode aplicamos la siguiente linea:
 </br>
 <code>npm i</code>
-### uso
+> Recuerda que para que nuestro proyecto se ejecute normalmente, debes tener instalado el [Framework de Node.js](https://nodejs.org/es)
+## uso
 Actualmente abres una ** instancia de la consola de comando  y ejecutas la siguiente linea de codigo:
 </br>
-<code>npm start</code>
+<code>npm run dev</code>
+### Rutas del proyecto
+Puedes ver todas las peticiones https desde nuestra [API REST Documentacion con Swagger(https://nodejs.org/es/download) para mayor detalle, a continuacion se hablara de cada una de las peticiones catalogadas en los diferentes modulo del sistema
+#### Usuarios
+##### Crear un nuevo
+Enviaremos una peticion de tipo POST para insertar un nuevo usuario en la base de datos, para ello en el cuerpo de la peticion, necesitamos recibir los siguientes parametros:
+| **Nombre** | **Tipo de Dato** |                      **Descripcion**                     |
+|:----------:|:----------------:|:--------------------------------------------------------:|
+|   Nombre   |      String      |                Nombre completo del usuario               |
+|   Correo   |       Email      |              Correo Electronico del Usuario              |
+|   Imagen   |      String      |                  Url de icono de perfil                  |
+|  Telefono  |      Number      |             Un numero de contacto del usuario            |
+|     Rol    |      String      | Un rol que juega el usuario como Asesor, Admin o Cliente |
 
-> Recuerda que para que nuestro proyecto se ejecute normalmente, debes tener instalado el [Framework de Node.js](https://nodejs.org/es)
+**URL**: https:localhost:4000/cusuario, method: **POST**
+> Se aconseja herramienta para elaborar peticiones http, algunas herramientas que recomendamos son [*POSTMAN*](https://www.postman.com/), 
+[*Thunder Client for Visual Studio Code*](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client), entre otras
+
+
 ### autores
 
 
