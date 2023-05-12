@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const SchemaUsuario = Joi.object({
-        nombre : Joi.string().min(3).max(40).regex(/^[a-zA-Z0-9]+$/).required(),
+        nombre : Joi.string().min(3).max(40).regex(/^[a-zA-Z0-9 ]*$/).required(),
         correo: Joi.string()
         .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
         .max(254)
@@ -15,7 +15,7 @@ const SchemaUsuario = Joi.object({
         }),
         imagen :  Joi.string().uri(), 
         telefono : Joi.number().min(3000000000).max(3999999999).required(),
-        rol : Joi.string().valid('ASESOR', 'CLIENTE','ADMIN')
+        rol : Joi.string().valid('ASESOR', 'CLIENTE','ADMIN','PUBLIC')
     });
 
 module.exports = SchemaUsuario;
