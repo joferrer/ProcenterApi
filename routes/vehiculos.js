@@ -18,22 +18,22 @@ router.post('/eliminarVehiculo', eliminarVehiculos, (req, res) => {
     res.json();
 });
 
-router.post('/cvehiculo', cvehiculo, (req, res) => {
+router.post('/cvehiculos', cvehiculo, (req, res) => {
     res.json();
 });
 
-router.get('/rvehiculo', rvehiculo, (req, res) => {
+router.get('/rvehiculos', rvehiculo, (req, res) => {
     res.json();
 });
 
-router.get('/rvehiculobyid/:idveh', rvehiculobyid, (req, res) => {
+router.get('/rvehiculosbyid/:id', rvehiculobyid, (req, res) => {
     res.json();
 });
 
-router.put('/uvehiculo/:idveh', uvehiculo, (req, res) => {
+router.put('/uvehiculos/:id', uvehiculo, (req, res) => {
     res.json();
 });
-router.delete('/dvehiculo/:idveh', dvehiculo, (req, res) => {
+router.delete('/dvehiculos/:id', dvehiculo, (req, res) => {
     res.json();
 });
 

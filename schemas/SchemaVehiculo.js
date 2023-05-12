@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const SchemaVehiculo = Joi.object({
-    nombre : Joi.string().min(2).max(40).regex(/^[a-zA-Z0-9 ]*$/).required(),
+    marca : Joi.string().min(2).max(40).regex(/^[a-zA-Z0-9 ]*$/).required(),
     modelo : Joi.string().min(2).max(40).regex(/^[a-zA-Z0-9 ]*$/).required(),
     anio : Joi.number().min(1960).max(2023).required(),
     motor : Joi.string().min(2).max(40).regex(/^[a-zA-Z0-9 ]*$/).required(),

@@ -35,7 +35,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  *   post:
  *     tags:
  *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     sumary: Agrega un usuario en el sistema
+ *     summary: Agrega un usuario en el sistema
  *     description: a a traves de su ID como parametro en la busqueda
  *     parameters:
  *       - in: body
@@ -81,7 +81,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  *   get:
  *     tags:
  *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     sumary: Consultar todos los usuarios
+ *     summary: Consultar todos los usuarios
  *     description: Consulta todos los usuarios del Sistema, retornando un JSON de todos los usuarios del sistema
  *     responses:
  *       200:
@@ -93,7 +93,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  *   get:
  *     tags:
  *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     sumary: Consulta un usuario en el sistema
+ *     summary: Consulta un usuario en el sistema
  *     description: Consulta la existencia de un usuario del sistema a traves de su ID como parametro en la busqueda
  *     parameters:
  *       - in: path
@@ -111,7 +111,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  *   put:
  *     tags:
  *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     sumary: Actualiza un usuario en el sistema
+ *     summary: Actualiza un usuario en el sistema
  *     description: Actualiza un usuario por medio de su campo ID
  *     parameters:
  *       - in: body
@@ -163,7 +163,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  *   delete:
  *     tags:
  *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     sumary: Consulta un usuario en el sistema
+ *     summary: Consulta un usuario en el sistema
  *     description: Elimina un usuario a traves de su ID como parametro en la URL
  *     parameters:
  *       - in: path
@@ -179,48 +179,57 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  */
 
 /**
- * /cusuario:
+ * @swagger
+ * /cvehiculos:
  *   post:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     sumary: Agrega un usuario en el sistema
- *     description: a a traves de su ID como parametro en la busqueda
+ *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
+ *     summary: Agrega un vehiculo en el sistema
+ *     description: Crea un vehiculo en la coleccion Vehiculos en la base de datos
  *     parameters:
  *       - in: body
- *         name: usuario
+ *         name: vehiculo
  *         required: true
- *         description: Datos del usuario para agregar
+ *         description: Camppos de vehiculos obligatorios para agregar
  *         schema:
  *           type: object
  *           properties:
  *             nombre:
  *               type: string
- *             correo:
+ *             modelo:
  *               type: string
- *               format: email
- *             imagen:
- *               type: string
- *               format: uri   
- *             telefono:
+ *             anio:
  *               type: integer
- *             rol:
+ *             motor:
  *               type: string
- *               enum:
- *                 - ASESOR
- *                 - CLIENTE
- *                 - ADMIN
- *                 - PUBLIC
+ *             color:
+ *               type: string
+ *             rin:
+ *               type: string
+ *             imagenes:
+ *               type: object
+ *             placa:
+ *               type: string
+ *             otros:
+ *               type: string
+ *             precio:
+ *               type: integer  
  *           example:
- *               nombre: "Jairo Caicedo"
- *               correo: "juansebastian@gmail.com"
- *               imagen: "https://cdn.onemars.net/sites/nutro_es_NkyIN_B9cV/image/20_1615903469720.jpeg"   
- *               telefono: 3115609183
- *               rol: "CLIENTE" 
+ *               marca: "Toyota"
+ *               modelo: "Hilux"
+ *               anio: 2021
+ *               motor: "MOTOR 8 caballos" 
+ *               color: "Negro" 
+ *               rin: "18 rin"
+ *               imagenes: { url1: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url2: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url3: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png"  }
+ *               placa: "KFG359"   
+ *               otros: "3105708967"
+ *               precio: 130000000 
  *     responses:
  *       200:
- *         description: Usuario agregado correctamente
+ *         description: Vehiculo agregado correctamente
  *       400:
- *         description: Error al insertar el usuario, revisa la informacion que enviaste en el formulario
+ *         description: Error al insertar el vehiculo, revisa la informacion que enviaste en el formulario
  *        
  * 
  * /rvehiculos:
@@ -228,45 +237,44 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  *  
  *   get:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     sumary: Consultar todos los usuarios
- *     description: Consulta todos los usuarios del Sistema, retornando un JSON de todos los usuarios del sistema
+ *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
+ *     summary: Consultar todos los vehiculos del sistema
+ *     description: Consulta todos los vehiculos en la coleccion "Vehiculos" en la base de datos
  *     responses:
  *       200:
- *         description: Lista de usuarios cargados en el sistema
+ *         description: Lista de vehiculos cargados en el sistema
  *       400:
- *         description: Error al cargar usuario en la plataforma
-
- * /rusuariobyid/{id}:
+ *         description: Error al cargar vehiculo en la plataforma
+ *
+ * /rvehiculosbyid/{id}:
  *   get:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     sumary: Consulta un usuario en el sistema
- *     description: Consulta la existencia de un usuario del sistema a traves de su ID como parametro en la busqueda
+ *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
+ *     summary: Consultar un vehiculo en el sistema
+ *     description: Consulta un vehiculo del sistema a traves de su ID del documento
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Campo de cadena de caracteres de la ID del Usuario
+ *         description: Campo de cadena de caracteres de la ID del vehiculo
  *     responses:
  *       200:
- *         description: Consulta de usuario de manera exitosa
+ *         description: Consulta de vehiculo de manera exitosa
  *       400:
- *         description: Error usuario inexistente en la base de datos
+ *         description: Error vehiculo inexistente en la base de datos
  *   
  * 
- * /uusuario/{id}:
+ * /uvehiculos/{id}:
  *   put:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     sumary: Actualiza un usuario en el sistema
- *     description: Actualiza un usuario por medio de su campo ID
+ *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
+ *     summary: Actualiza un vehiculo del sistema
+ *     description: Actualiza un vehiculo en la base de datos usando la ID de su documetno
  *     parameters:
  *       - in: body
  *         name: usuario
  *         required: true
- *         description: Cuerpo de informacion de la DATA que el usuario se deba actualizar
- *   
+ *         description: Campo de cadena de caracteres de la ID del vehiculo
  *         schema:
  *           type: object
  *           properties:
@@ -288,42 +296,42 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
  *                 - ADMIN
  *                 - PUBLIC
  *           example:
- *               nombre: "Jairo Caicedo"
- *               correo: "juansebastian@gmail.com"
- *               imagen: "https://cdn.onemars.net/sites/nutro_es_NkyIN_B9cV/image/20_1615903469720.jpeg"   
- *               telefono: 3115609183
- *               rol: "CLIENTE" 
+ *               marca: "Toyota"
+ *               modelo: "Hilux"
+ *               anio: 2021
+ *               motor: "MOTOR 8 caballos" 
+ *               color: "Negro" 
+ *               rin: "18 rin"
+ *               imagenes: { url1: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url2: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url3: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png"  }
+ *               placa: "KFG359"   
+ *               otros: "3105708967"
+ *               precio: 130000000 
  *       - in: path
  *         name: id
  *         required: true
- *         description: Campo de cadena de caracteres de la ID del Usuario
+ *         description: Campo de cadena de caracteres de la ID del vehiculo
  *     responses:
  *       200:
- *         description: Usuario actualizado correctamente
+ *         description: vehiculo actualizado correctamente
  *       400:
- *         description: Error al actualizar el usuario, revisa la informacion que enviaste en el formulario
+ *         description: Error al actualizar el vehiculo, revisa la informacion que enviaste en el formulario
  * 
- *
- *
- * 
- * 
- * /dusuario/{id}:
+ * /dvehiculos/{id}:
  *   delete:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     sumary: Consulta un usuario en el sistema
- *     description: Elimina un usuario a traves de su ID como parametro en la URL
+ *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
+ *     summary: Eliminar un un vehiculo del sistema
+ *     description: Elimina un vehiculo de la coleccion "vehiculos" por medio de su id
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Campo de cadena de caracteres de la ID del Usuario
+ *         description: Campo de cadena de caracteres de la ID del vehiculo
  *     responses:
  *       200:
- *         description: Eliminacion de usuario de manera exitosa
+ *         description: Eliminacion de vehiculo de manera exitosa
  *       400:
- *         description: Error usuario inexistente en la base de datos  
- *        
+ *         description: Error vehiculo inexistente en la base de datos         
  */
 
 
