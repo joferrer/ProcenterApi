@@ -24,16 +24,16 @@ router.post('/usuario', agregarUsuario, (req, res) => {
 router.post('/cusuario', cusuario, (req, res) => {
     res.json();
 });
-router.post('/rusuario', rusuario, (req, res) => {
+router.get('/rusuario', rusuario, (req, res) => {
     res.json();
 });
-router.post('/rusuario/:idusuario', rusuariobyid, (req, res) => {
+router.get('/rusuariobyid/:id', rusuariobyid, (req, res) => {
     res.json();
 });
-router.post('/uusuario/:idusuario', uusuario, (req, res) => {
+router.put('/uusuario/:idusuario', uusuario, (req, res) => {
     res.json();
 });
-router.post('/dusuario/:idusuario', dusuario, (req, res) => {
+router.delete('/dusuario/:id', dusuario, (req, res) => {
     res.json();
 });
 

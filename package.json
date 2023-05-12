@@ -24,6 +24,8 @@
     "firebase-admin": "^11.5.0",
     "joi": "^17.9.2",
     "nodemon": "^2.0.22",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.3",
     "vue": "^3.2.47"
   }
 }

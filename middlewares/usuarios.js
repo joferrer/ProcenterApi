@@ -1,3 +1,5 @@
+const express = require('express');
+const router = express.Router();
 const { db, auth } = require("../firebase/providerFirestore");
 const admin = require("firebase-admin");
 const SchemaUsuario = require("../schemas/SchemaUsuario");
@@ -78,7 +80,7 @@ async function cusuario(req, res, next) {
   }
 
   catch (error) {
-    res.status(400).send("Error al insertar el usuario, revisa la informacion que envias en el formu")
+    res.status(400).send("Error al insertar el usuario, revisa la informacion que enviaste en el formulario")
     console.error(error);
     next();
   }
@@ -102,15 +104,20 @@ async function rusuario(req, res, next) {
 
 async function rusuariobyid(req, res, next) {
   try {
-    const id = req.params.idusuario;
-    const userRef = db.collection("usuarios").doc(id);
+    const idUsuario = req.params.id;
+    console.log(idUsuario)
+
+    const userRef = db.collection("usuarios").doc(idUsuario);
     const response = await userRef.get().then((doc) => {
       if (doc.exists) {
+        console.log("entro")
         let responseArr = [];
         responseArr.push(doc.data());
         res.status(200).json(responseArr);
+        CONS
         next();
       } else {
+        console.log("no entro")
         res.status(400).send('El documento no existe');
       }
     })
@@ -143,7 +150,7 @@ async function uusuario(req, res, next) {
         telefono: usuario.newtelefono,
         rol: usuario.newrol
       })
-      res.status(200).send("Usuario actualizado con exito");
+      res.status(200).json("Usuario actualizado con exito");
     }}
      catch (error) {
       res.status(400).send("Documento no existe en la base de datos");
@@ -153,18 +160,23 @@ async function uusuario(req, res, next) {
 
 async function dusuario(req, res, next) {
   try {
-    const id = req.params.idusuario
-    const usuario = await db.collection("usuarios").doc(id).delete().then((doc) => {
+    const idUsuario = req.params.id;
+    console.log(idUsuario)
+
+    const userRef = db.collection("usuarios").doc(idUsuario);
+    const response = await userRef.get().then((doc) => {
       if (doc.exists) {
-        res.status(200).send("Usuario eliminado con exito");
-      }
-      else {
-        res.status(400).send("Documento no existe en la base de datos");
+        userRef.delete();
+        res.status(200).send('Eliminado con exito')
+        next();
+      } else {
+        console.log("no entro")
+        res.status(400).send('El documento no existe');
       }
     })
   }
   catch (error) {
-    console.error(error);
+    res.json(error);
   }
 };
 module.exports = { agregarUsuario, obtenerUsuarios, registrarUsuario, iniciarSesion, cusuario, rusuario, rusuariobyid, uusuario, dusuario }
