@@ -1,14 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { actualizarCatalogo } = require('../middlewares/catalogo');
+const { consultarCatalogo } = require('../middlewares/catalogo');
 const { formatoCatalogo } = require('../helpers/formatoCatalogo');
 
-router.get('/catalogo',actualizarCatalogo, (req,res) => {
+// Desde firestore
+router.get('/catalogo',consultarCatalogo, (req,res) => {
     try {
-        let autos = [];
-        req.autos.forEach(e => {
-            autos.push(formatoCatalogo(e));
-        });
+        let autos = req.autos;
         res.json(autos);
 
     } catch (error) {

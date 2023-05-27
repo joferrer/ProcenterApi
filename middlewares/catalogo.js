@@ -4,7 +4,7 @@ const axios = require("axios");
 
 async function consultarCatalogo(req, res, next) {
     try {
-      const autos = await db.collection('vehiculos').get();
+      const autos = await db.collection('vehiculos').where();
       req.autos = autos;
       next();
     }
@@ -13,16 +13,4 @@ async function consultarCatalogo(req, res, next) {
     }
 }
 
-async function actualizarCatalogo(req, res, next) {
-    try{
-        const autos = await traerCatalogo();
-        req.autos = autos;
-        console.log(req.autos)
-        next();
-    }
-    catch{
-        return console.error("se jodio");
-    }
-}
-
-module.exports = { consultarCatalogo , actualizarCatalogo}
+module.exports = { consultarCatalogo }
