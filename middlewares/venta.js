@@ -6,8 +6,11 @@ const moment = require('moment');
 const {schemaVenta, schemaVentaActualizacion} = require("../schemas/SchemaVenta");
 const SchemaUsuarioCliente = require("../schemas/SchemaUsuario");
 
- const hacerReservacion = (nReservacion, fechaInicial) => {
-  const fechaIniTime = fechaInicial.split("-");
+
+const { Timestamp } = require('firebase/firestore');
+
+function formatoFecha(fecha) {
+  const fechaIniTime = fecha.split("-");
   const ini = Timestamp.fromDate(
     new Date(
       Number(fechaIniTime[2]),
@@ -16,7 +19,9 @@ const SchemaUsuarioCliente = require("../schemas/SchemaUsuario");
       6
     )
   );
+  
 }
+
 
 
 
