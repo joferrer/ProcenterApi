@@ -6,9 +6,7 @@ const { formatoCatalogo } = require('../helpers/formatoCatalogo');
 // Desde firestore
 router.get('/catalogo',consultarCatalogo, (req,res) => {
     try {
-        let autos = req.autos;
-        res.json(autos);
-
+        res.json(req.autos);
     } catch (error) {
         return console.log(error)
     }
