@@ -6,6 +6,25 @@ const moment = require('moment');
 const {schemaVenta, schemaVentaActualizacion} = require("../schemas/SchemaVenta");
 const SchemaUsuarioCliente = require("../schemas/SchemaUsuario");
 
+
+const { Timestamp } = require('firebase/firestore');
+
+function formatoFecha(fecha) {
+  const fechaIniTime = fecha.split("-");
+  const ini = Timestamp.fromDate(
+    new Date(
+      Number(fechaIniTime[2]),
+      Number(fechaIniTime[0]) - 1,
+      Number(fechaIniTime[1]),
+      6
+    )
+  );
+  
+}
+
+
+
+
 async function cventa(req, res, next) {
   try {
 
@@ -182,6 +201,8 @@ async function cventa(req, res, next) {
   }
 };
 
+
+
 async function rventa(req, res, next) {
   try {
     const userRef = db.collection("ventas");
@@ -201,6 +222,7 @@ async function rventa(req, res, next) {
 
 async function rventabyid(req, res, next) {
   try {
+
     const idventa = req.params.id;
     console.log(idventa)
 
