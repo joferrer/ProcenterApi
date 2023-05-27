@@ -1,13 +1,76 @@
 const express = require('express');
 const router = express.Router();
-const { agregarUsuario, obtenerUsuarios } = require("../middlewares/usuarios");
+const { crearUsuario, 
+        actualizarUsuario, 
+        desactivarUsuario, 
+        obtenerUsuarioById, 
+        obtenerUsuarios,
+        activarUsuario
+    } = require("../middlewares/usuarios");
 
-router.get('/usuario', obtenerUsuarios ,(req,res)=>{
-   res.json();
+/**
+ * Ruta para crear un nuevo usuario.
+ *
+ * @route POST /crear-usuario
+ * @param {object} req - El objeto de solicitud.
+ * @param {object} res - El objeto de respuesta.
+ * @returns {void}
+ */
+router.post('/crear-usuario', crearUsuario, (req, res) => {
+    res.json();
 });
 
-router.post('/usuario', agregarUsuario,(req,res)=>{
-    res.redirect("/");
+/**
+ * Ruta para obtener todos los usuarios.
+ *
+ * @route GET /usuarios
+ * @param {object} req - El objeto de solicitud.
+ * @param {object} res - El objeto de respuesta.
+ * @returns {void}
+ */
+router.get('/usuarios', obtenerUsuarios, (req, res) => {
+    res.json();
 });
+
+/**
+ * Ruta para obtener un usuario por su ID.
+ *
+ * @route GET /usuario/:id
+ * @param {object} req - El objeto de solicitud.
+ * @param {object} res - El objeto de respuesta.
+ * @returns {void}
+ */
+router.get('/usuario/:id', obtenerUsuarioById, (req, res) => {
+    res.json();
+});
+
+/**
+ * Ruta para actualizar un usuario por su ID.
+ *
+ * @route PUT /usuario/:id
+ * @param {object} req - El objeto de solicitud.
+ * @param {object} res - El objeto de respuesta.
+ * @returns {void}
+ */
+router.put('/usuario/:id', actualizarUsuario, (req, res) => {
+    res.json();
+});
+
+/**
+ * Ruta para eliminar un usuario por su ID.
+ *
+ * @route DELETE /usuario/:id
+ * @param {object} req - El objeto de solicitud.
+ * @param {object} res - El objeto de respuesta.
+ * @returns {void}
+ */
+router.delete('/usuario/:id', desactivarUsuario, (req, res) => {
+    res.json();
+});
+
+router.post('/usuario/:id', activarUsuario, (req, res) => {
+    res.json();
+});
+
 
 module.exports = router;

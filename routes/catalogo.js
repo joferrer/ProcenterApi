@@ -6,7 +6,7 @@ const { formatoCatalogo } = require('../helpers/formatoCatalogo');
 router.get('/catalogo',actualizarCatalogo, (req,res) => {
     try {
         let autos = [];
-        req.autos.forEach(e =>{
+        req.autos.forEach(e => {
             autos.push(formatoCatalogo(e));
         });
         res.json(autos);
@@ -15,6 +15,5 @@ router.get('/catalogo',actualizarCatalogo, (req,res) => {
         return console.log(error)
     }
 });
-
 
 module.exports = router;

@@ -6,10 +6,10 @@ async function traerCatalogo() {
   try {
     const response = await axios.post(url,catalog);
     const data = response.data;
+    console.log(data)
     const products =
-      data.data.xwa_product_catalog_get_product_catalog.product_catalog
+      data.data.xwa_product_catalog_get_product_catalog.product_catalog //el diablo 
         .products;
-
     products.forEach((item) => {
       let images = [];
       item.media.images.forEach((image) => {
@@ -24,7 +24,7 @@ async function traerCatalogo() {
         price: item.price,
       });
     });
-
+    
   return productos;
   } catch (error) {
     console.error(error);
@@ -32,5 +32,5 @@ async function traerCatalogo() {
 }
 
 module.exports = {
-  traerCatalogo,
+  traerCatalogo
 };

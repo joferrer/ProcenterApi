@@ -5,10 +5,11 @@ const catalog = {
     request: {
       product_catalog: {
         jid: "573118931877@c.us",
-        allow_shop_source: "ALLOWSHOPSOURCE_FALSE",
+        allow_shop_source: "ALLOWSHOPSOURCE_FALSE ",
         width: "100",
         height: "100",
-        limit: "49"
+        limit: "20"
+       
       },
     },
   },
@@ -22,5 +23,5 @@ const url = "https://graph.whatsapp.com/graphql/catalog";
 
 module.exports = {
   catalog,
-  url,
+  url
 };
