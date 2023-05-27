@@ -4,25 +4,20 @@ const axios = require("axios");
 
 async function consultarCatalogo(req, res, next) {
     try {
-      const autos = await db.collection('vehiculos').get();
+      const collectionRef = await db.collection('vehiculos');
+      const querySnapshot = await collectionRef.where('disponible', '==', true).get();
+      const autos = [];
+
+        querySnapshot.forEach((doc) => {
+            autos.push(doc.data());
+        });
+      
       req.autos = autos;
       next();
     }
-    catch{
-        return console.error("se jodio");
+    catch(error){
+        return console.log(error);
     }
 }
 
-async function actualizarCatalogo(req, res, next) {
-    try{
-        const autos = await traerCatalogo();
-        req.autos = autos;
-        console.log(req.autos)
-        next();
-    }
-    catch{
-        return console.error("se jodio");
-    }
-}
-
-module.exports = { consultarCatalogo , actualizarCatalogo}
+module.exports = { consultarCatalogo }
