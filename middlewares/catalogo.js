@@ -20,4 +20,25 @@ async function consultarCatalogo(req, res, next) {
     }
 }
 
-module.exports = { consultarCatalogo }
+async function desactivarDisponible(req, res, next) {
+    let idVehiculo = req.params.id;
+    try {
+        const id = idVehiculo.replace(':','');
+        const collectionRef = db.collection('vehiculos').doc(id);
+        const updateData = { disponible: false};
+        await collectionRef.update(updateData);
+
+        res.estado = true
+        res.message = `El vehiculo ${idVehiculo} se ha deshabilitado correctamente `;
+
+        res.id = idVehiculo;
+        next(); 
+    }
+    catch(error){
+        res.estado = false;
+        res.message = `No se ha encontrado el vehiculo ${idVehiculo}`;
+        next();
+    }
+}
+
+module.exports = { consultarCatalogo, desactivarDisponible }
