@@ -1,39 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const { obtenerVehiculos, agregarVehiculos , actualizarVehiculo, eliminarVehiculos, cvehiculo , rvehiculo, rvehiculobyid, uvehiculo, dvehiculo  } = require("../middlewares/vehiculos");
+const { crearVehiculo, obtenerVehiculos, obtenerVehiculoById, actualizarVehiculo, eliminarVehiculo}= require("../middlewares/vehiculos");
 
-router.get('/catalogo', obtenerVehiculos, (req, res) => {
+
+router.post('/agregar-vehiculo', crearVehiculo, (req, res) => {
     res.json();
 });
 
-router.post('/agregarVehiculo', agregarVehiculos, (req, res) => {
+router.get('/vehiculos', obtenerVehiculos, (req, res) => {
     res.json();
 });
 
-router.post('/modificarVehiculo', actualizarVehiculo, (req, res) => {
+router.get('/vehiculo/:id', obtenerVehiculoById, (req, res) => {
     res.json();
 });
 
-router.post('/eliminarVehiculo', eliminarVehiculos, (req, res) => {
+router.put('/vehiculo/:id', actualizarVehiculo, (req, res) => {
     res.json();
 });
-
-router.post('/cvehiculos', cvehiculo, (req, res) => {
-    res.json();
-});
-
-router.get('/rvehiculos', rvehiculo, (req, res) => {
-    res.json();
-});
-
-router.get('/rvehiculosbyid/:id', rvehiculobyid, (req, res) => {
-    res.json();
-});
-
-router.put('/uvehiculos/:id', uvehiculo, (req, res) => {
-    res.json();
-});
-router.delete('/dvehiculos/:id', dvehiculo, (req, res) => {
+router.delete('/vehiculo/:id', eliminarVehiculo, (req, res) => {
     res.json();
 });
 
