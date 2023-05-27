@@ -1,39 +1,74 @@
 const express = require('express');
 const router = express.Router();
-const { agregarUsuario, obtenerUsuarios, registrarUsuario, iniciarSesion, cusuario, rusuario, rusuariobyid, uusuario, dusuario  } = require("../middlewares/usuarios");
-const { db } = require("../firebase/providerFirestore");
-const admin = require("firebase-admin");
+const { crearUsuario, 
+        actualizarUsuario, 
+        desactivarUsuario, 
+        obtenerUsuarioById, 
+        obtenerUsuarios,
+        activarUsuario
+    } = require("../middlewares/usuarios");
 
-
-router.get('/usuario', obtenerUsuarios, (req, res) => {
+/**
+ * Ruta para crear un nuevo usuario.
+ *
+ * @route POST /crear-usuario
+ * @param {object} req - El objeto de solicitud.
+ * @param {object} res - El objeto de respuesta.
+ * @returns {void}
+ */
+router.post('/crear-usuario', crearUsuario, (req, res) => {
     res.json();
 });
 
-router.post('/registro', registrarUsuario, (req, res) => {
+/**
+ * Ruta para obtener todos los usuarios.
+ *
+ * @route GET /usuarios
+ * @param {object} req - El objeto de solicitud.
+ * @param {object} res - El objeto de respuesta.
+ * @returns {void}
+ */
+router.get('/usuarios', obtenerUsuarios, (req, res) => {
     res.json();
 });
 
-router.post('/iniciosesion', iniciarSesion, (req, res) => {
-    
+/**
+ * Ruta para obtener un usuario por su ID.
+ *
+ * @route GET /usuario/:id
+ * @param {object} req - El objeto de solicitud.
+ * @param {object} res - El objeto de respuesta.
+ * @returns {void}
+ */
+router.get('/usuario/:id', obtenerUsuarioById, (req, res) => {
+    res.json();
 });
 
-router.post('/usuario', agregarUsuario, (req, res) => {
-    res.redirect("/");
+/**
+ * Ruta para actualizar un usuario por su ID.
+ *
+ * @route PUT /usuario/:id
+ * @param {object} req - El objeto de solicitud.
+ * @param {object} res - El objeto de respuesta.
+ * @returns {void}
+ */
+router.put('/usuario/:id', actualizarUsuario, (req, res) => {
+    res.json();
 });
 
-router.post('/cusuario', cusuario, (req, res) => {
+/**
+ * Ruta para eliminar un usuario por su ID.
+ *
+ * @route DELETE /usuario/:id
+ * @param {object} req - El objeto de solicitud.
+ * @param {object} res - El objeto de respuesta.
+ * @returns {void}
+ */
+router.delete('/usuario/:id', desactivarUsuario, (req, res) => {
     res.json();
 });
-router.get('/rusuario', rusuario, (req, res) => {
-    res.json();
-});
-router.get('/rusuariobyid/:id', rusuariobyid, (req, res) => {
-    res.json();
-});
-router.put('/uusuario/:idusuario', uusuario, (req, res) => {
-    res.json();
-});
-router.delete('/dusuario/:id', dusuario, (req, res) => {
+
+router.post('/usuario/:id', activarUsuario, (req, res) => {
     res.json();
 });
 

@@ -1,80 +1,17 @@
 const { db } = require("../firebase/providerFirestore");
 const SchemaVehiculo = require('../schemas/SchemaVehiculo');
 
-//Obtain a list of vehicle of the collection "Vehicules"
-async function obtenerVehiculos(req, res, next){
-    try {
-        const userRef = db.collection("vehiculos");
-        const response = await userRef.get();
-        let responseArr = [];
 
-        response.forEach ( doc => {
-            responseArr.push(doc.data());
-        }); 
-        res.json(responseArr);
-    }
-    catch (error) {
-        res.json(error);
-    }
-};
-
-//Insert a new vehicle in the database
-async function agregarVehiculos(req, res, next){
-    try{
-        const vehJson ={
-            idveh: newIdVeh,
-            marca: req.body.marca
-        };
-        const vehRef = await db.collection("vehiculos").doc(id).set(vehJson);
-        res.send("Vehiculo agregado correctamente")
-        res.status(200);
-    }
-
-    catch(error){
-        console.error(error);
-    }
-};
-
-//Update a vehicle in the database using the id atribute
-async function actualizarVehiculo(req, res, next){
-    try {
-        const idveh= req.body.idveh;
-        const newmarca =  req.body.marca;
-        const vehRef = await db.collection("vehiculos").doc(idveh)
-        .update({
-            marca: newmarca
-        });
-        res.send("Vehiculo actualizado correctamente")
-        res.status(200);
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-//Delete a vehicle with a params named id in the url, where the params deleted the document 
-async function eliminarVehiculos(req, res, next){
-    try{
-    const vehRef = await db.collection("vehiculos").doc(req.params.id).delete();
-    res.send("Vehiculo eliminado con exito");
-    res.status(200);
-    }
-    catch (error) {
-        console.error(error);
-    }
-};
-
-
-
-async function cvehiculo(req, res, next) {
+async function crearVehiculo(req, res, next) {
     try {
       console.log(req.body)
       const { error } = SchemaVehiculo.validate(req.body);
   
       if (error) {
-        return res.status(400).json({ error: error.details[0].message });
+        res.status(400).send({"estado": false, "error":error.details[0].message});
         next();
       }
-      else {
+      else { 
         const vehiculo = {
           id: db.collection("vehiculos").doc().id,
           marca : req.body.marca,
@@ -86,23 +23,23 @@ async function cvehiculo(req, res, next) {
           imagenes : req.body.imagenes,
           placa : req.body.placa,
           otros : req.body.otros,
+          estado: "DISPONIBLE",
           precio: req.body.precio
         }
         console.log(vehiculo);
         const usuariodoc = await db.collection("vehiculos").doc(vehiculo.id).set(vehiculo);
-        res.status(200).send("Vehiculo agregado correctamente")
+        res.status(200).send({"estado": true, "mensaje": "Vehiculo agregado correctamente"})
         next();
       }
     }
   
     catch (error) {
-      res.status(400).send("Error al insertar el Vehiculo, revisa la informacion que envias en el formu")
-      console.error(error);
+      res.status(400).send({"estado": false, "mensaje": error});
       next();
     }
   };
   
-  async function rvehiculo(req, res, next) {
+  async function obtenerVehiculos(req, res, next) {
     try {
       const userRef = db.collection("vehiculos");
       const response = await userRef.get();
@@ -110,15 +47,16 @@ async function cvehiculo(req, res, next) {
       response.forEach(doc => {
         responseArr.push(doc.data());
       });
-      res.status(200).json(responseArr);
+      res.status(200).send({"estado": true, "mensaje": "¡Lista de vehiculos cargado con exito!", "data": responseArr})
+      next();
     }
     catch (error) {
-      res.status(400).send("Error al cargar vehiculo en la plataforma");
-      res.json(error);
+      res.status(400).send({"estado": false, "mensaje": error});
+      next();
     }
   };
   
-  async function rvehiculobyid(req, res, next) {
+  async function obtenerVehiculoById(req, res, next) {
     try {
       const id = req.params.id;
       const userRef = db.collection("vehiculos").doc(id);
@@ -126,25 +64,28 @@ async function cvehiculo(req, res, next) {
         if (doc.exists) {
           let responseArr = [];
           responseArr.push(doc.data());
-          res.status(200).json(responseArr);
+          res.status(200).send({"estado": true, "mensaje": "¡Vehiculo consultado con exito!", "data": responseArr})
           next();
         } else {
-          res.status(400).send('El vehiculo no existe');
+          res.status(400).send({"estado": false, "mensaje": "El vehiculo no existe"});
+          next();
         }
       })
     }
     catch (error) {
-      res.json(error);
+      res.status(400).send({"estado": false, "mensaje": error});
+      next();
     }
   };
   
-  async function uvehiculo(req, res, next) {
+  async function actualizarVehiculo(req, res, next) {
     try {
       const id = req.params.id
       console.log(id)
       const { error } = SchemaVehiculo.validate(req.body);
       if (error) {
-        return res.status(400).json({ error: error.details[0].message });
+         res.status(400).send({"estado": false, "error": error.details[0].message});
+         next();
       }
       else {
         const vehiculo = {
@@ -171,15 +112,18 @@ async function cvehiculo(req, res, next) {
           otros : vehiculo.Newotros,
           precio: vehiculo.Newprecio
         })
-        res.status(200).json("Usuario actualizado con exito");
+        res.status(200).send({"estado": true, "mensaje":"Usuario actualizado con exito" });
+         next();
       }}
        catch (error) {
-        res.status(400).send("Documento no existe en la base de datos");
-      console.error(error);
+        res.status(400).send({"estado": false, "mensaje":"Documento no existe en la base de datos"} );
+        console.error(error);
+        next();
+      
     }
   };
   
-  async function dvehiculo(req, res, next) {
+  async function eliminarVehiculo(req, res, next) {
     try {
       const id = req.params.id;
       console.log(id)
@@ -187,19 +131,29 @@ async function cvehiculo(req, res, next) {
       const userRef = db.collection("vehiculos").doc(id);
       const response = await userRef.get().then((doc) => {
         if (doc.exists) {
-          userRef.delete();
-          res.status(200).send('Eliminado con exito')
-          next();
+          if(doc.data().estado=="PROCESO"){
+            res.status(400).send({"estado": false, "mensaje": "No puedes eliminar un vehiculo que esta en proceso de venta"})
+          
+          }
+          else{
+            userRef.delete();
+            res.status(200).send({"estado": true, "mensaje":"Eliminado con exito" });
+          
+          }
+       
+          
         } else {
           console.log("no entro")
-          res.status(400).send('El documento no existe');
+          res.status(400).send({"estado": false, "mensaje": "El documento no existe"});
+          next();
         }
       })
     }
     catch (error) {
-      res.json(error);
+      res.status(400).send({"estado": false, "error": error});
+      next();
     }
   };
 
 
-module.exports = { obtenerVehiculos, agregarVehiculos , actualizarVehiculo, eliminarVehiculos, cvehiculo, rvehiculo, rvehiculobyid, uvehiculo, dvehiculo}
+module.exports = { crearVehiculo, obtenerVehiculos, obtenerVehiculoById, actualizarVehiculo, eliminarVehiculo}

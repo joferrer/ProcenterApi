@@ -1,54 +1,21 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const {} = require('./app');
-const path = require('path')
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
-const app = express();
-app.use(express.json());
-app.use(cors());
-app.use(express.urlencoded({extended: true}));
 
+// Otras importaciones y configuraciones de Swagger...
 
+// Configuración de opciones de Swagger
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
       title: "Procenter API REST",
       version: '1.0.0',
-    }, 
+    },
   },
   apis: ["app.js"],
-
 };
 
+// Generar la documentación de Swagger
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
-
-
-
-
-
-//Global Variables
-app.use((req, res, next) => {
-  app.locals.db = req.db;
-  next();
-});
-
-//routes
-app.use(require('./routes/vehiculos'));
-app.use(require('./routes/venta'));
-app.use(require('./routes/usuarios'));
-app.use(require('./routes/catalogo'));
-app.use(require('./routes/autentificacion'));
-//Vista para el back (temporal)
-
-app.use(express.static(__dirname));
-
-const history = require('connect-history-api-fallback');
-app.use(history());
-//Vista para el back (temporal)
-
 /**
  * @swagger
  * 
@@ -360,7 +327,8 @@ app.use(history());
 
 
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en localhost:${PORT}`);
-})
+// Exportar la documentación de Swagger
+module.exports = {
+  serve: swaggerUI.serve,
+  setup: swaggerUI.setup(swaggerDocs)
+};
