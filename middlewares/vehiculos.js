@@ -23,7 +23,7 @@ async function crearVehiculo(req, res, next) {
           imagenes : req.body.imagenes,
           placa : req.body.placa,
           otros : req.body.otros,
-          estado: "DISPONIBLE",
+          estado: true,
           precio: req.body.precio
         }
         console.log(vehiculo);
@@ -131,7 +131,7 @@ async function crearVehiculo(req, res, next) {
       const userRef = db.collection("vehiculos").doc(id);
       const response = await userRef.get().then((doc) => {
         if (doc.exists) {
-          if(doc.data().estado=="PROCESO"){
+          if(doc.data().estado==false){
             res.status(400).send({"estado": false, "mensaje": "No puedes eliminar un vehiculo que esta en proceso de venta"})
           
           }
