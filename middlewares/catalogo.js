@@ -23,7 +23,7 @@ async function consultarCatalogo(req, res, next) {
 async function desactivarDisponible(req, res, next) {
     let idVehiculo = req.params.id;
     try {
-        const id = idVehiculo.replace(':','');
+        const id = idVehiculo.replace(':',''); //revisamos despues
         const collectionRef = db.collection('vehiculos').doc(id);
         const updateData = { disponible: false};
         await collectionRef.update(updateData);
