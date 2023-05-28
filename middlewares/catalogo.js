@@ -51,58 +51,61 @@ async function actualizarPlaca(req, res, next){
 }
 
 async function agregarImagen(imagenes, idVehiculo) {
-    try {
-      const id = idVehiculo;
-      const collectionRef = db.collection('vehiculos').doc(id);
-      let vehiculo = await consultarImagenes(idVehiculo);
-      
-      let imagenIndex = Object.keys(vehiculo).length + 1;
+  try {
+    const id = idVehiculo;
+    const collectionRef = db.collection('vehiculos').doc(id);
 
-      imagenes.forEach(img => {
-        const clave = `url${imagenIndex}`;
-        vehiculo[clave] = img;
-        imagenIndex++;
-      });
-
-      const updateData = {
-        imagenes: vehiculo
-      };
-  
-      await collectionRef.update(updateData);
-  
-      res.estado = true;
-      res.message = `Las imágenes se han agregado correctamente al vehículo ${idVehiculo}`;
-  
-      res.id = idVehiculo;
-      next();
-    } catch (error) {
+    let vehiculo = await consultarImagenes(idVehiculo);
+    if (!vehiculo) {
+      // El vehículo no existe, se retorna un mensaje de error
+      return { estado: false, mensaje: `El vehículo ${idVehiculo} no ha sido encontrado` };
     }
+
+    let imagenIndex = Object.keys(vehiculo).length + 1;
+
+    imagenes.forEach(img => {
+      const clave = `url${imagenIndex}`;
+      vehiculo[clave] = img;
+      imagenIndex++;
+    });
+
+    const updateData = {
+      imagenes: vehiculo
+    };
+
+    await collectionRef.update(updateData);
+
+    // Las imágenes se han agregado correctamente al vehículo
+    return { estado: true, mensaje: `Las imágenes se han agregado correctamente al vehículo ${idVehiculo}` };
+  } catch (error) {
+    console.error(error);
+    return { estado: false, mensaje: 'Ha ocurrido un error al agregar las imágenes' };
   }
-  
-  async function consultarImagenes(idVehiculo) {
-    try {
-      const collectionRef = db.collection('vehiculos');
-      const querySnapshot = await collectionRef.where('id', '==', idVehiculo).get();
-     
-      if(querySnapshot.empty){
-        return console.log(`No existe el vehiculo ${idVehiculo}`);
-      }
-     
-      let result = [];
-     
-      querySnapshot.forEach((doc) => {
-        result.push(doc.data());
-      });
+}
 
-      let autos = result[0].imagenes;
+async function consultarImagenes(idVehiculo) {
+  try {
+    const collectionRef = db.collection('vehiculos');
+    const querySnapshot = await collectionRef.where('id', '==', idVehiculo).get();
 
-      return autos;
-
-    } catch (error) {
-      console.log(error);
-      return [];
+    if (querySnapshot.empty) {
+      return null;
     }
+
+    let result = [];
+    querySnapshot.forEach((doc) => {
+      result.push(doc.data());
+    });
+
+    let autos = result[0].imagenes;
+
+    return autos;
+  } catch (error) {
+    console.error(error);
+    return null;
   }
+}
 
 
-module.exports = { consultarCatalogo, desactivarDisponible, actualizarPlaca, agregarImagen }
+
+module.exports = { consultarCatalogo, desactivarDisponible, actualizarPlaca, agregarImagen,consultarImagenes }
