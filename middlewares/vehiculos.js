@@ -23,7 +23,7 @@ async function crearVehiculo(req, res, next) {
           imagenes : req.body.imagenes,
           placa : req.body.placa,
           otros : req.body.otros,
-          estado: true,
+          disponible: true,
           precio: req.body.precio
         }
         console.log(vehiculo);

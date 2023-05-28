@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { cventa, rventa, rventabyid, uventa, dventa, crearVenta} = require("../middlewares/venta");
+const { cventa, rventa, rventabyidAsesor} = require("../middlewares/venta");
 const { db, auth } = require("../firebase/providerFirestore");
 const admin = require("firebase-admin");
 
@@ -13,13 +13,7 @@ router.get('/rventa', rventa, (req, res) => {
 });
 
 
-router.get('/rventabyid/:id', rventabyid, (req, res) => {
-    res.json();
-});
-router.put('/uventa/:id', uventa, (req, res) => {
-    res.json();c
-});
-router.delete('/dventa/:id', dventa, (req, res) => {
+router.get('/rventabyid/:id', rventabyidAsesor, (req, res) => {
     res.json();
 });
 
