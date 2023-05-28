@@ -41,4 +41,9 @@ async function desactivarDisponible(req, res, next) {
     }
 }
 
+async function actualizarPlaca(req, res, next){
+    //Logica de actualizar
+    next();
+}
+
 module.exports = { consultarCatalogo, desactivarDisponible }

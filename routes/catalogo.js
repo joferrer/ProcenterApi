@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   consultarCatalogo,
   desactivarDisponible,
+  actualizarPlaca
 } = require("../middlewares/catalogo");
 const { formatoCatalogo } = require("../helpers/formatoCatalogo");
 
@@ -28,5 +29,12 @@ router.post("/desactivar-vehiculo/:id", desactivarDisponible, (req, res) => {
     });
   }
 });
+
+router.post("actualizarPlaca", actualizarPlaca, (req, res) => {
+    const { idVehiculo, Placa } = req.body;
+    //validar que la placa no exista
+    
+    return res.status(200).send("actualizado")
+})
 
 module.exports = router;
