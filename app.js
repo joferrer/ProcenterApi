@@ -51,312 +51,74 @@ app.use(history());
 
 /**
  * @swagger
- * 
- * 
- * 
- * 
- * /crearUsuario:
- *   post:
- *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     summary: Agrega un usuario en el sistema
- *     description: a a traves de su ID como parametro en la busqueda
- *     parameters:
- *       - in: body
- *         name: usuario
- *         required: true
- *         description: Datos del usuario para agregar
- *         schema:
- *           type: object
- *           properties:
- *             nombre:
- *               type: string
- *             correo:
- *               type: string
- *               format: email
- *             imagen:
- *               type: string
- *               format: uri   
- *             telefono:
- *               type: integer
- *             rol:
- *               type: string
- *               enum:
- *                 - ASESOR
- *                 - CLIENTE
- *                 - ADMIN
- *                 - PUBLIC
- *           example:
- *               nombre: "Jairo Caicedo"
- *               correo: "juansebastian@gmail.com"
- *               imagen: "https://cdn.onemars.net/sites/nutro_es_NkyIN_B9cV/image/20_1615903469720.jpeg"   
- *               telefono: 3115609183
- *               rol: "CLIENTE" 
- *     responses:
- *       200:
- *         description: Usuario agregado correctamente
- *       400:
- *         description: Error al insertar el usuario, revisa la informacion que enviaste en el formulario
- *        
- * 
- * /rusuario:
- *   
- *  
+ * /catalogo:
  *   get:
+ *     summary: Consulta el catálogo de autos
+ *     description: Obtiene el catálogo de autos disponibles
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     summary: Consultar todos los usuarios
- *     description: Consulta todos los usuarios del Sistema, retornando un JSON de todos los usuarios del sistema
+ *       - catalogo
  *     responses:
  *       200:
- *         description: Lista de usuarios cargados en el sistema
- *       400:
- *         description: Error al cargar usuario en la plataforma
-
- * /rusuariobyid/{id}:
- *   get:
- *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     summary: Consulta un usuario en el sistema
- *     description: Consulta la existencia de un usuario del sistema a traves de su ID como parametro en la busqueda
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Campo de cadena de caracteres de la ID del Usuario
- *     responses:
- *       200:
- *         description: Consulta de usuario de manera exitosa
- *       400:
- *         description: Error usuario inexistente en la base de datos
- *   
- * 
- * /uusuario/{id}:
- *   put:
- *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     summary: Actualiza un usuario en el sistema
- *     description: Actualiza un usuario por medio de su campo ID
- *     parameters:
- *       - in: body
- *         name: usuario
- *         required: true
- *         description: Cuerpo de informacion de la DATA que el usuario se deba actualizar
- *   
- *         schema:
- *           type: object
- *           properties:
- *             nombre:
- *               type: string
- *             correo:
- *               type: string
- *               format: email
- *             imagen:
- *               type: string
- *               format: uri   
- *             telefono:
- *               type: integer
- *             rol:
- *               type: string
- *               enum:
- *                 - ASESOR
- *                 - CLIENTE
- *                 - ADMIN
- *                 - PUBLIC
- *           example:
- *               nombre: "Jairo Caicedo"
- *               correo: "juansebastian@gmail.com"
- *               imagen: "https://cdn.onemars.net/sites/nutro_es_NkyIN_B9cV/image/20_1615903469720.jpeg"   
- *               telefono: 3115609183
- *               rol: "CLIENTE" 
- *       - in: path
- *         name: id
- *         required: true
- *         description: Campo de cadena de caracteres de la ID del Usuario
- *     responses:
- *       200:
- *         description: Usuario actualizado correctamente
- *       400:
- *         description: Error al actualizar el usuario, revisa la informacion que enviaste en el formulario
- * 
- *
- *
- * 
- * 
- * /dusuario/{id}:
- *   delete:
- *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     summary: Consulta un usuario en el sistema
- *     description: Elimina un usuario a traves de su ID como parametro en la URL
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Campo de cadena de caracteres de la ID del Usuario
- *     responses:
- *       200:
- *         description: Eliminacion de usuario de manera exitosa
- *       400:
- *         description: Error usuario inexistente en la base de datos  
- *        
+ *         description: Datos del catálogo obtenidos correctamente
+ *       500:
+ *         description: Error al obtener el catálogo
  */
 
 /**
  * @swagger
- * /cvehiculos:
+ * /desactivar-vehiculo/{id}:
  *   post:
+ *     summary: Desactiva un vehículo
+ *     description: Desactiva la disponibilidad de un vehículo específico
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
- *     summary: Agrega un vehiculo en el sistema
- *     description: Crea un vehiculo en la coleccion Vehiculos en la base de datos
+ *       - catalogo
  *     parameters:
- *       - in: body
- *         name: vehiculo
+ *       - in: path
+ *         name: id
+ *         description: ID del vehículo a desactivar
  *         required: true
- *         description: Camppos de vehiculos obligatorios para agregar
  *         schema:
- *           type: object
- *           properties:
- *             nombre:
- *               type: string
- *             modelo:
- *               type: string
- *             anio:
- *               type: integer
- *             motor:
- *               type: string
- *             color:
- *               type: string
- *             rin:
- *               type: string
- *             imagenes:
- *               type: object
- *             placa:
- *               type: string
- *             otros:
- *               type: string
- *             precio:
- *               type: integer  
- *           example:
- *               marca: "Toyota"
- *               modelo: "Hilux"
- *               anio: 2021
- *               motor: "MOTOR 8 caballos" 
- *               color: "Negro" 
- *               rin: "18 rin"
- *               imagenes: { url1: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url2: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url3: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png"  }
- *               placa: "KFG359"   
- *               otros: "3105708967"
- *               precio: 130000000 
+ *           type: string
  *     responses:
  *       200:
- *         description: Vehiculo agregado correctamente
+ *         description: Vehículo desactivado correctamente
  *       400:
- *         description: Error al insertar el vehiculo, revisa la informacion que enviaste en el formulario
- *        
- * 
- * /rvehiculos:
- *   
- *  
- *   get:
- *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
- *     summary: Consultar todos los vehiculos del sistema
- *     description: Consulta todos los vehiculos en la coleccion "Vehiculos" en la base de datos
- *     responses:
- *       200:
- *         description: Lista de vehiculos cargados en el sistema
- *       400:
- *         description: Error al cargar vehiculo en la plataforma
- *
- * /rvehiculosbyid/{id}:
- *   get:
- *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
- *     summary: Consultar un vehiculo en el sistema
- *     description: Consulta un vehiculo del sistema a traves de su ID del documento
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Campo de cadena de caracteres de la ID del vehiculo
- *     responses:
- *       200:
- *         description: Consulta de vehiculo de manera exitosa
- *       400:
- *         description: Error vehiculo inexistente en la base de datos
- *   
- * 
- * /uvehiculos/{id}:
- *   put:
- *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
- *     summary: Actualiza un vehiculo del sistema
- *     description: Actualiza un vehiculo en la base de datos usando la ID de su documetno
- *     parameters:
- *       - in: body
- *         name: usuario
- *         required: true
- *         description: Campo de cadena de caracteres de la ID del vehiculo
- *         schema:
- *           type: object
- *           properties:
- *             nombre:
- *               type: string
- *             correo:
- *               type: string
- *               format: email
- *             imagen:
- *               type: string
- *               format: uri   
- *             telefono:
- *               type: integer
- *             rol:
- *               type: string
- *               enum:
- *                 - ASESOR
- *                 - CLIENTE
- *                 - ADMIN
- *                 - PUBLIC
- *           example:
- *               marca: "Toyota"
- *               modelo: "Hilux"
- *               anio: 2021
- *               motor: "MOTOR 8 caballos" 
- *               color: "Negro" 
- *               rin: "18 rin"
- *               imagenes: { url1: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url2: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url3: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png"  }
- *               placa: "KFG359"   
- *               otros: "3105708967"
- *               precio: 130000000 
- *       - in: path
- *         name: id
- *         required: true
- *         description: Campo de cadena de caracteres de la ID del vehiculo
- *     responses:
- *       200:
- *         description: vehiculo actualizado correctamente
- *       400:
- *         description: Error al actualizar el vehiculo, revisa la informacion que enviaste en el formulario
- * 
- * /dvehiculos/{id}:
- *   delete:
- *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
- *     summary: Eliminar un un vehiculo del sistema
- *     description: Elimina un vehiculo de la coleccion "vehiculos" por medio de su id
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Campo de cadena de caracteres de la ID del vehiculo
- *     responses:
- *       200:
- *         description: Eliminacion de vehiculo de manera exitosa
- *       400:
- *         description: Error vehiculo inexistente en la base de datos         
+ *         description: Error al desactivar el vehículo
+ *       404:
+ *         description: Vehículo no encontrado
  */
+
+/**
+ * @swagger
+ * /subir-imagen:
+ *   post:
+ *     summary: Sube una imagen a Amazon S3
+ *     description: Sube una imagen a Amazon S3 y la asocia a un vehículo específico
+ *     tags:
+ *       - catalogo
+ *     requestBody:
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Imagen subida correctamente
+ *       400:
+ *         description: No se proporcionó ninguna imagen
+ *       404:
+ *         description: Vehículo no encontrado
+ *       500:
+ *         description: Error al subir la imagen a S3
+ */
+
+
 
 
 
