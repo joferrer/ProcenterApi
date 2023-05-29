@@ -48,7 +48,7 @@ async function crearUsuario(req, res, next) {
         telefono: req.body.telefono,
         rol: req.body.rol,
         fechaVincu: moment().format('DD/MM/YYYY'),
-        estado: "ACTIVO"
+        estado: true
       } 
       const usuariodoc = await db.collection("usuarios").doc(usuario.id).set(usuario);
       res.status(200).send({ "estado": true, "mensaje": "¡Usuario creado con exito!" })
