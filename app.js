@@ -37,6 +37,7 @@ app.use((req, res, next) => {
 
 //routes
 app.use(require('./routes/vehiculos'));
+app.use(require('./routes/adquisiciones'));
 app.use(require('./routes/venta'));
 app.use(require('./routes/usuarios'));
 app.use(require('./routes/catalogo'));

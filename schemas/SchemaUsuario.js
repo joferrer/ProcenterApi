@@ -73,7 +73,7 @@ const SchemaUsuario = Joi.object({
   telefono:  telefonoSchema,
 
   rol: Joi.string()
-    .valid('ASESOR', 'CLIENTE', 'ADMIN', 'PUBLIC')
+    .valid('ASESOR', 'CLIENTE', 'ADMIN', 'PUBLICISTA')
     .required()
     .messages({
       'string.base': 'El rol debe ser una cadena de texto.',
