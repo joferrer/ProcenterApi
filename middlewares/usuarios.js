@@ -2,6 +2,20 @@ const { db } = require("../firebase/providerFirestore");
 const { SchemaUsuario, SchemaUsuarioCliente } = require("../schemas/SchemaUsuario");
 const moment = require('moment');
 
+const { Timestamp } = require('firebase-admin').firestore;
+function formatoFecha(fecha) {
+  const fechaIniTime = fecha.split("/");
+  const ini = Timestamp.fromDate(
+    new Date(
+      Number(fechaIniTime[2]),
+      Number(fechaIniTime[1]) - 1,
+      Number(fechaIniTime[0]) ,
+      6
+    )
+  );
+  return ini;
+}
+
 
 async function crearUsuario(req, res, next) {
   try {
@@ -41,13 +55,13 @@ async function crearUsuario(req, res, next) {
     else {
       const usuario = {
         id: db.collection("usuarios").doc().id,
-        nombre: req.body.nombre,
+        nombre: req.body.nombre,  
         cedula: req.body.cedula,
         correo: req.body.correo, 
         imagen: req.body.imagen,
         telefono: req.body.telefono,
         rol: req.body.rol,
-        fechaVincu: moment().format('DD/MM/YYYY'),
+        fechaVincu: formatoFecha(moment().format('DD/MM/YYYY')),
         estado: true
       } 
       const usuariodoc = await db.collection("usuarios").doc(usuario.id).set(usuario);
@@ -66,6 +80,9 @@ async function obtenerUsuarios(req, res, next) {
   try {
     const userRef = db.collection("usuarios");
     const response = await userRef.get();
+    if(response.empty){
+      return res.status(400).send({"estado": false, "mensaje": "No hay usuarios registrados en la base de datos"});
+    }
     let responseArr = [];
     response.forEach(doc => {
       responseArr.push(doc.data());
@@ -187,7 +204,6 @@ async function actualizarUsuario(req, res, next) {
       const usuario = {
         newnombre: req.body.nombre,
         newcedula: req.body.cedula,
-        newedad: req.body.edad, 
         newcorreo: req.body.correo,
         newimagen: req.body.imagen,
         newtelefono: req.body.telefono,
@@ -197,7 +213,6 @@ async function actualizarUsuario(req, res, next) {
       const usuariodoc = await db.collection("usuarios").doc(id).update({
         nombre: usuario.newnombre,
         cedula: usuario.newcedula,
-        edad: usuario.newedad,
         correo: usuario.newcorreo,
         imagen: usuario.newimagen,
         telefono: usuario.newtelefono,
@@ -215,28 +230,19 @@ async function actualizarUsuario(req, res, next) {
 
 async function desactivarUsuario(req, res, next) {
   try {
-    const id = req.params.id;
-    const usuarioconsulta = await db.collection("usuarios").doc(id).get();
-    console.log(usuarioconsulta.data().rol);
-    const clienteRefTVenta= db.collection("ventas");
-    const clienteSnapshotVentaProceso = await clienteRefTVenta.where('estado.contexto', '==','PROCESO').where('asesor.idasesor.id', '==',id) .get();
-    
+ 
     const idUsuario = req.params.id;
-    const userRef = db.collection("usuarios").doc(idUsuario);
+    const userRef = await db.collection("usuarios").doc(idUsuario);
+    const userRefRol =await  db.collection("usuarios").doc(idUsuario).get();
     const response = await userRef.get().then((doc) => {
 
-      if (doc.exists) {
-
-
-        if(!clienteSnapshotVentaProceso.empty){
-          return res.status(400).send(({ estado: false, mensaje: "El usuario no puede ser desactivado porque tiene ventas en proceso como asesor" }));
-        }
-        if(usuarioconsulta.data().rol=="CLIENTE"){
+    if (doc.exists) {
+        if(userRefRol.data().rol=="CLIENTE"){
           return res.status(400).send(({ estado: false, mensaje: "No se puede desactivar clientes con rol de cliente, solo Publicista, asesores y administradores" }));
         }
         userRef.update({
-          estado: "INACTIVO",
-          fechadesVincu: moment().format('DD/MM/YYYY')
+        "estado": false,
+        "fechaDesvincu": formatoFecha(moment().format('DD/MM/YYYY'))
         })
         res.status(200).send({"estado": true, "mensaje": "¡Usuario desactivado con exito!"});
         next();
@@ -253,29 +259,20 @@ async function desactivarUsuario(req, res, next) {
 
 async function activarUsuario(req, res, next) {
   try {
-    const id = req.params.id;
-    const usuarioconsulta = await db.collection("usuarios").doc(id).get();
-    console.log(usuarioconsulta.data().rol);
-    const clienteRefTVenta= db.collection("ventas");
-    const clienteSnapshotVentaProceso = await clienteRefTVenta.where('estado.contexto', '==','PROCESO').where('asesor.idasesor.id', '==',id) .get();
-    
+ 
     const idUsuario = req.params.id;
-    const userRef = db.collection("usuarios").doc(idUsuario);
+    const userRef = await db.collection("usuarios").doc(idUsuario);
+    const userRefRol =await  db.collection("usuarios").doc(idUsuario).get();
     const response = await userRef.get().then((doc) => {
 
-      if (doc.exists) {
-        
-
-        if(!clienteSnapshotVentaProceso.empty){
-          return res.status(400).send(({ estado: false, mensaje: "El usuario no puede ser activado porque tiene ventas en proceso como asesor" }));
-        }
-        if(usuarioconsulta.data().rol=="CLIENTE"){
-          return res.status(400).send(({ estado: false, mensaje: "No se puede  activar clientes con rol de cliente, solo Publicista, asesores y administradores" }));
+    if (doc.exists) {
+        if(userRefRol.data().rol=="CLIENTE"){
+          return res.status(400).send(({ estado: false, mensaje: "No se puede activar clientes con rol de cliente, solo Publicista, asesores y administradores" }));
         }
         userRef.update({
-          estado: "ACTIVO"
+        "estado": true,
+        "fechaDesvincu": null
         })
-        
         res.status(200).send({"estado": true, "mensaje": "¡Usuario activado con exito!"});
         next();
       } else {

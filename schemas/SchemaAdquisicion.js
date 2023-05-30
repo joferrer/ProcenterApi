@@ -82,7 +82,7 @@ modelo: Joi.string().regex(/^[\w\s]+$/).required()
       'number.max': 'El precio del dueño no puede ser mayor a 999,999,999,999',
       'any.required': 'El precio del dueño es obligatorio'
     }),
-  fechaMatricula: Joi.date().required(),
+  fechaMatricula: Joi.date().max('now').required(),
   soat: Joi.boolean().required()
     .messages({
       'boolean.base': 'El campo SOAT debe ser un valor booleano',
@@ -126,7 +126,7 @@ modelo: Joi.string().regex(/^[\w\s]+$/).required()
       'string.max': 'El correo electrónico no debe exceder los {#limit} caracteres.',
       'any.required': 'El correo electrónico es un campo requerido.',
     }),
-    telefono:  telefonoSchema,
+  telefono:  telefonoSchema,
   impuestos: Joi.boolean().required()
     .messages({
       'boolean.base': 'El campo impuestos debe ser un valor booleano',

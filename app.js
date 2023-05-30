@@ -52,14 +52,84 @@ app.use(history());
 
 /**
  * @swagger
+ * /catalogo:
+ *   get:
+ *     summary: Consulta el catálogo de autos
+ *     description: Obtiene el catálogo de autos disponibles
+ *     tags:
+ *       - Catalogo
+ *     responses:
+ *       200:
+ *         description: Datos del catálogo obtenidos correctamente
+ *       500:
+ *         description: Error al obtener el catálogo
+ */
+
+/**
+ * @swagger
+ * /desactivar-vehiculo/{id}:
+ *   post:
+ *     summary: Desactiva un vehículo
+ *     description: Desactiva la disponibilidad de un vehículo específico
+ *     tags:
+ *       - Catalogo
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: ID del vehículo a desactivar
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Vehículo desactivado correctamente
+ *       400:
+ *         description: Error al desactivar el vehículo
+ *       404:
+ *         description: Vehículo no encontrado
+ */
+
+/**
+ * @swagger
+ * /subir-imagen:
+ *   post:
+ *     summary: Sube una imagen a Amazon S3
+ *     description: Sube una imagen a Amazon S3 y la asocia a un vehículo específico
+ *     tags:
+ *       - Catalogo
+ *     requestBody:
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Imagen subida correctamente
+ *       400:
+ *         description: No se proporcionó ninguna imagen
+ *       404:
+ *         description: Vehículo no encontrado
+ *       500:
+ *         description: Error al subir la imagen a S3
+ */
+
+
+/**
+ * @swagger
  * 
  * 
  * 
  * 
- * /crearUsuario:
+ * /crear-usuario:
  *   post:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
+ *     - Gestion de usuarios
  *     summary: Agrega un usuario en el sistema
  *     description: a a traves de su ID como parametro en la busqueda
  *     parameters:
@@ -79,6 +149,8 @@ app.use(history());
  *               type: string
  *               format: uri   
  *             telefono:
+ *               type: string
+ *             cedula:
  *               type: integer
  *             rol:
  *               type: string
@@ -91,7 +163,8 @@ app.use(history());
  *               nombre: "Jairo Caicedo"
  *               correo: "juansebastian@gmail.com"
  *               imagen: "https://cdn.onemars.net/sites/nutro_es_NkyIN_B9cV/image/20_1615903469720.jpeg"   
- *               telefono: 3115609183
+ *               telefono: "+573115609183"
+ *               cedula: 3115609183
  *               rol: "CLIENTE" 
  *     responses:
  *       200:
@@ -100,24 +173,24 @@ app.use(history());
  *         description: Error al insertar el usuario, revisa la informacion que enviaste en el formulario
  *        
  * 
- * /rusuario:
+ * /usuarios:
  *   
  *  
  *   get:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
+ *     - Gestion de usuarios
  *     summary: Consultar todos los usuarios
  *     description: Consulta todos los usuarios del Sistema, retornando un JSON de todos los usuarios del sistema
  *     responses:
  *       200:
- *         description: Lista de usuarios cargados en el sistema
+ *         description: ¡Lista de usuario cargado con exito!
  *       400:
- *         description: Error al cargar usuario en la plataforma
+ *         description: No hay usuarios registrados en la base de datos
 
- * /rusuariobyid/{id}:
+ * /usuario/{id}:
  *   get:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
+ *     - Gestion de usuarios
  *     summary: Consulta un usuario en el sistema
  *     description: Consulta la existencia de un usuario del sistema a traves de su ID como parametro en la busqueda
  *     parameters:
@@ -127,15 +200,15 @@ app.use(history());
  *         description: Campo de cadena de caracteres de la ID del Usuario
  *     responses:
  *       200:
- *         description: Consulta de usuario de manera exitosa
+ *         description: ¡Usuario consultado con exito!
  *       400:
- *         description: Error usuario inexistente en la base de datos
+ *         description: El usuario no existe
  *   
  * 
  * /uusuario/{id}:
  *   put:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
+ *     - Gestion de usuarios
  *     summary: Actualiza un usuario en el sistema
  *     description: Actualiza un usuario por medio de su campo ID
  *     parameters:
@@ -156,6 +229,8 @@ app.use(history());
  *               type: string
  *               format: uri   
  *             telefono:
+ *               type: string
+ *             cedula:
  *               type: integer
  *             rol:
  *               type: string
@@ -170,6 +245,7 @@ app.use(history());
  *               imagen: "https://cdn.onemars.net/sites/nutro_es_NkyIN_B9cV/image/20_1615903469720.jpeg"   
  *               telefono: 3115609183
  *               rol: "CLIENTE" 
+ *               cedula: 28986472
  *       - in: path
  *         name: id
  *         required: true
@@ -187,9 +263,9 @@ app.use(history());
  * /dusuario/{id}:
  *   delete:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de usuarios
- *     summary: Consulta un usuario en el sistema
- *     description: Elimina un usuario a traves de su ID como parametro en la URL
+ *     - Gestion de usuarios
+ *     summary: Desactivar un usuario en el sistema
+ *     description: Desactiva un usuario a traves de su ID como parametro en la URL
  *     parameters:
  *       - in: path
  *         name: id
@@ -197,166 +273,300 @@ app.use(history());
  *         description: Campo de cadena de caracteres de la ID del Usuario
  *     responses:
  *       200:
- *         description: Eliminacion de usuario de manera exitosa
+ *         description: ¡Usuario desactivado con exito!
  *       400:
- *         description: Error usuario inexistente en la base de datos  
+ *         description: El usuario no existe  
+ * 
+ * /ausuario/{id}:
+ *   post:
+ *     tags:
+ *     - Gestion de usuarios
+ *     summary: Activa un usuario en el sistema
+ *     description: Activa un usuario a traves de su ID como parametro en la URL
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Campo de cadena de caracteres de la ID del Usuario
+ *     responses:
+ *       200:
+ *         description: ¡Usuario activado con exito!
+ *       400:
+ *         description: El usuario no existe  
  *        
  */
 
+
 /**
  * @swagger
- * /cvehiculos:
+ * /crear-venta:
  *   post:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
- *     summary: Agrega un vehiculo en el sistema
- *     description: Crea un vehiculo en la coleccion Vehiculos en la base de datos
+ *     - Registro de Ventas
+ *     summary: Crea una venta
+ *     description: Crea una nueva venta en el sistema
  *     parameters:
  *       - in: body
- *         name: vehiculo
+ *         name: venta
  *         required: true
- *         description: Camppos de vehiculos obligatorios para agregar
+ *         description: Elaborar un registro de venta
  *         schema:
  *           type: object
  *           properties:
- *             nombre:
+ *             idvehiculo:
  *               type: string
- *             modelo:
- *               type: string
- *             anio:
- *               type: integer
- *             motor:
- *               type: string
- *             color:
- *               type: string
- *             rin:
- *               type: string
- *             imagenes:
+ *               pattern: "^[a-zA-Z0-9]{20}$"      
+ *             cliente:
  *               type: object
- *             placa:
+ *               properties:
+ *                 nombre:
+ *                   type: string
+ *                   minLength: 3
+ *                   maxLength: 40
+ *                   pattern: "^[a-zA-Z ]+$"
+ *                 cedula:
+ *                   type: number
+ *                   minimum: 1000000
+ *                   maximum: 99999999999
+ *                 correo:
+ *                   type: string
+ *                   format: email
+ *                   maxLength: 254
+ *                 telefono:
+ *                   type: string
+ *               required:
+ *                 - nombre
+ *                 - cedula
+ *                 - correo
+ *                 - telefono
+ *             idasesor:
  *               type: string
- *             otros:
- *               type: string
- *             precio:
- *               type: integer  
+ *               pattern: "^[a-zA-Z0-9]{20}$"
  *           example:
- *               marca: "Toyota"
- *               modelo: "Hilux"
- *               anio: 2021
- *               motor: "MOTOR 8 caballos" 
- *               color: "Negro" 
- *               rin: "18 rin"
- *               imagenes: { url1: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url2: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url3: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png"  }
- *               placa: "KFG359"   
- *               otros: "3105708967"
- *               precio: 130000000 
+ *               idvehiculo: "ABC123456789"
+ *               cliente:
+ *                 nombre: "Jairo Caicedo"
+ *                 cedula: 28986472
+ *                 correo: "juansebastian@gmail.com"
+ *                 telefono: "+573115609183"
+ *               idasesor: "ABC123456789"
  *     responses:
  *       200:
- *         description: Vehiculo agregado correctamente
+ *         description: Venta creada exitosamente
  *       400:
- *         description: Error al insertar el vehiculo, revisa la informacion que enviaste en el formulario
- *        
- * 
- * /rvehiculos:
- *   
+ *         description: Error al crear la venta, revisa los datos enviados
  *  
+ * /rventa:
  *   get:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
- *     summary: Consultar todos los vehiculos del sistema
- *     description: Consulta todos los vehiculos en la coleccion "Vehiculos" en la base de datos
+ *     - Registro de Ventas
+ *     summary: Obtener todas las ventas
+ *     description: Obtiene todas las ventas registradas en el sistema
  *     responses:
  *       200:
- *         description: Lista de vehiculos cargados en el sistema
+ *         description: Lista de ventas consultada con exito
  *       400:
- *         description: Error al cargar vehiculo en la plataforma
- *
- * /rvehiculosbyid/{id}:
+ *         description: No se encontraron ventas registradas
+ * 
+ * /rventabyid/{id}:
  *   get:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
- *     summary: Consultar un vehiculo en el sistema
- *     description: Consulta un vehiculo del sistema a traves de su ID del documento
+ *     - Registro de Ventas
+ *     summary: Obtener una venta por ID
+ *     description: Obtiene una venta específica por su ID
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Campo de cadena de caracteres de la ID del vehiculo
+ *         description: ID de la venta a obtener
  *     responses:
  *       200:
- *         description: Consulta de vehiculo de manera exitosa
+ *         description: Consulta de Venta de manera exitosa
  *       400:
- *         description: Error vehiculo inexistente en la base de datos
- *   
- * 
- * /uvehiculos/{id}:
- *   put:
+ *         description: No se encontraron ventas para el ID del asesor
+ */
+
+
+/**
+ * @swagger
+ * /agregar-adquisicion:
+ *   post:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
- *     summary: Actualiza un vehiculo del sistema
- *     description: Actualiza un vehiculo en la base de datos usando la ID de su documetno
+ *     - Adquisiciones
+ *     summary: Agregar adquisición
+ *     description: Agrega una nueva adquisición al sistema
  *     parameters:
  *       - in: body
- *         name: usuario
+ *         name: adquisicion
  *         required: true
- *         description: Campo de cadena de caracteres de la ID del vehiculo
+ *         description: Elaborar un registro de adquisición
  *         schema:
  *           type: object
  *           properties:
+ *             id:
+ *               type: string
  *             nombre:
  *               type: string
+ *               pattern: ^[\w\s]+$
+ *               minLength: 1
+ *               maxLength: 255
+ *             marca:
+ *               type: string
+ *               pattern: ^[a-zA-Z0-9\-]+$
+ *               minLength: 1
+ *               maxLength: 255
+ *             modelo:
+ *               type: string
+ *               pattern: ^[\w\s]+$
+ *               minLength: 1
+ *               maxLength: 255
+ *             color:
+ *               type: string
+ *               pattern: ^[^\d\s]+$
+ *               minLength: 1
+ *               maxLength: 255
+ *             motor:
+ *               type: string
+ *               pattern: ^[a-zA-Z0-9]+$
+ *               minLength: 1
+ *               maxLength: 255
+ *             placa:
+ *               type: string
+ *               pattern: ^([A-Z]{3}\d{3}|[A-Z]{2}\d{3}[A-Z])$
+ *               minLength: 1
+ *               maxLength: 255
+ *             anio:
+ *               type: integer
+ *               minimum: 1
+ *               maximum: 9999
+ *             precioDueno:
+ *               type: number
+ *               minimum: 0
+ *               maximum: 999999999999
+ *             soat:
+ *               type: boolean
+ *             cedula:
+ *               type: number
+ *               minimum: 1000000
+ *               maximum: 99999999999
+ *             nombredueno:
+ *               type: string
+ *               pattern: ^[^\d\s]+$
+ *               minLength: 1
+ *               maxLength: 255
+ *             prenda:
+ *               type: string
+ *               minLength: 1
+ *               maxLength: 255
  *             correo:
  *               type: string
  *               format: email
- *             imagen:
- *               type: string
- *               format: uri   
+ *               minLength: 1
+ *               maxLength: 254
  *             telefono:
- *               type: integer
- *             rol:
  *               type: string
- *               enum:
- *                 - ASESOR
- *                 - CLIENTE
- *                 - ADMIN
- *                 - PUBLIC
+ *             impuestos:
+ *               type: boolean
+ *             detalles:
+ *               type: string
+ *               maxLength: 255
+ *             estado:
+ *               type: boolean
+ *             idpublic:
+ *               type: string
+ *               pattern: ^[a-zA-Z0-9]{20}$
+ *               minLength: 1
+ *               maxLength: 255
+ *           required:
+ *             - nombre
+ *             - marca
+ *             - modelo
+ *             - color
+ *             - motor
+ *             - placa
+ *             - anio
+ *             - precioDueno
+ *             - fechaMatricula
+ *             - soat
+ *             - cedula
+ *             - nombredueno
+ *             - prenda
+ *             - correo
+ *             - telefono
+ *             - impuestos
+ *             - detalles
+ *             - idpublic
  *           example:
- *               marca: "Toyota"
- *               modelo: "Hilux"
- *               anio: 2021
- *               motor: "MOTOR 8 caballos" 
- *               color: "Negro" 
- *               rin: "18 rin"
- *               imagenes: { url1: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url2: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url3: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png"  }
- *               placa: "KFG359"   
- *               otros: "3105708967"
- *               precio: 130000000 
- *       - in: path
- *         name: id
- *         required: true
- *         description: Campo de cadena de caracteres de la ID del vehiculo
+ *             nombre: "MAZDA 3 2021"
+ *             marca: "Mercedez-benzs"
+ *             modelo: "3"
+ *             color: "Green"
+ *             motor: "V8"
+ *             placa: "UED359"
+ *             anio: 2023
+ *             precioDueno: 30550000
+ *             fechaMatricula: "01/12/2020"
+ *             soat: true
+ *             prenda: "OLX"
+ *             impuestos: true
+ *             detalles: "NINGUNO"
+ *             nombredueno: "Camilo"
+ *             telefono: "+573135702122"
+ *             cedula: 1151914
+ *             correo: "alrighddt@gmail.com"
+ *             idpublic: "DoAyh117nT9PYG8GC7R2"    
+ *     additionalProperties: false
  *     responses:
  *       200:
- *         description: vehiculo actualizado correctamente
+ *         description: Adquisicion ag  regada correctamente
  *       400:
- *         description: Error al actualizar el vehiculo, revisa la informacion que enviaste en el formulario
- * 
- * /dvehiculos/{id}:
- *   delete:
+ *         description: Error al agregar la adquisicion, revisa los datos enviados
+ *
+ *
+ * /adquisiciones:
+ *   get:
  *     tags:
- *     - Consulta, Creacion,Ediccion y Eliminacion de vehiculos
- *     summary: Eliminar un un vehiculo del sistema
- *     description: Elimina un vehiculo de la coleccion "vehiculos" por medio de su id
+ *     - Adquisiciones
+ *     summary: Obtener todas las adquisiciones del Publicista
+ *     description: Obtiene todas las adquisiciones registradas en el sistema
+ *     responses:
+ *       200:
+ *         description: Lista de adquisiciones consultada con exito
+ *       400:
+ *         description: No se encontraron adquisiciones registradas
+ * 
+ * /adquisicion/{id}:
+ *   get:
+ *     tags:
+ *     - Adquisiciones
+ *     summary: Obtener una adquisicion por ID
+ *     description: Obtiene una adquisicion específica por su ID de Publicista
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Campo de cadena de caracteres de la ID del vehiculo
+ *         description: ID de la adquiscion a obtener
  *     responses:
  *       200:
- *         description: Eliminacion de vehiculo de manera exitosa
+ *         description: Consulta de adquisicion de manera exitosa
  *       400:
- *         description: Error vehiculo inexistente en la base de datos         
+ *         description: No se encontraron adquisiciones para el ID del publicista
+ * /desactivar-adquisicion/{id}:
+ *   post:
+ *     tags:
+ *     - Adquisiciones
+ *     summary: desactiva una adquisicion por ID
+ *     description: desactiva una adquisicion específica por su ID de adquisicion
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de la adquiscion a obtener
+ *     responses:
+ *       200:
+ *         description:  se ha deshabilitado correctamente 
+ *       400:
+ *         description: No se ha encontrado la adquisicion
  */
 
 

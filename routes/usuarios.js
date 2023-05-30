@@ -52,7 +52,7 @@ router.get('/usuario/:id', obtenerUsuarioById, (req, res) => {
  * @param {object} res - El objeto de respuesta.
  * @returns {void}
  */
-router.put('/usuario/:id', actualizarUsuario, (req, res) => {
+router.put('/uusuario/:id', actualizarUsuario, (req, res) => {
     res.json();
 });
 
@@ -64,11 +64,11 @@ router.put('/usuario/:id', actualizarUsuario, (req, res) => {
  * @param {object} res - El objeto de respuesta.
  * @returns {void}
  */
-router.delete('/usuario/:id', desactivarUsuario, (req, res) => {
+router.delete('/dusuario/:id', desactivarUsuario, (req, res) => {
     res.json();
 });
 
-router.post('/usuario/:id', activarUsuario, (req, res) => {
+router.post('/ausuario/:id', activarUsuario, (req, res) => {
     res.json();
 });
 

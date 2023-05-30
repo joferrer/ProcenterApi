@@ -52,7 +52,7 @@ const SchemaUsuario = Joi.object({
     }),
 
   correo: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+    .email()
     .max(254)
     .required()
     .messages({

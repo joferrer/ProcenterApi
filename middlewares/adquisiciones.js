@@ -32,19 +32,19 @@ async function adquisicionVehiculos(req, res, next) {
       else { 
 
         const idpublic = req.body.idpublic;
-        const publicRef = db.collection("usuarios").doc(idpublic);
+        const publicRef = await  db.collection("usuarios").doc(idpublic);
         const publicSnapshot = await publicRef.get();
         const publicista = publicSnapshot.data();
 
         const idclientecc = req.body.cedula;
-        const clienteRef = db.collection("usuarios");
+        const clienteRef = await db.collection("usuarios");
         const clienteSnapshot = await clienteRef.where('cedula', '==', idclientecc).where('rol', '==', "CLIENTE").get();
     
         
        
-        const adquiscionRef = db.collection("vehiculos").where('placa', '==', req.body.placa);
+        const adquiscionRef = await  db.collection("vehiculos").where('placa', '==', req.body.placa);
       const snapshot = await adquiscionRef.get();
-  
+        
       if (!snapshot.empty) {
         return res.status(400).send(({ estado: false, mensaje: "La placa del vehiculo ya existe en algun registro de la base de datos" }));
       }
@@ -120,6 +120,7 @@ async function adquisicionVehiculos(req, res, next) {
           placa : req.body.placa,
           anio : req.body.anio,
           precioDueno: req.body.precioDueno,
+          fechaMatricula: req.body.fechaMatricula,
           fechaCreacion:  formatoFecha(moment().format('DD/MM/YYYY')),
           soat: true,
           prenda : req.body.prenda, 
@@ -250,7 +251,7 @@ async function adquisicionVehiculos(req, res, next) {
         });
         res.status(200).send({ estado: true, mensaje: "Consulta de adquisicion de manera exitosa", data: responseArr });
       } else {
-        res.status(400).send({ estado: false, mensaje: "No se encontraron adquisiciones para el ID del asesor: " + idpublicista });
+        res.status(400).send({ estado: false, mensaje: "No se encontraron adquisiciones para el ID del publicista: " + idpublicista });
       }
     } catch (error) {
       console.log(error);
@@ -267,14 +268,14 @@ async function adquisicionVehiculos(req, res, next) {
         await collectionRef.update(updateData);
 
         res.estado = true
-        res.message = `El vehiculo ${idAdquisicion} se ha deshabilitado correctamente `;
+        res.message = `La adquiscion ${idAdquisicion} se ha deshabilitado correctamente `;
 
         res.id = idAdquisicion;
         next(); 
     }
     catch(error){
         res.estado = false;
-        res.message = `No se ha encontrado el vehiculo ${idAdquisicion}`;
+        res.message = `No se ha encontrado la adquisicion ${idAdquisicion}`;
         next();
     }
 }
