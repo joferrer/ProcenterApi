@@ -8,17 +8,22 @@ router.post('/agregar-vehiculo', crearVehiculo, (req, res) => {
 });
 
 router.get('/vehiculos', obtenerVehiculos, (req, res) => {
+    //axios actualizar catalogo
     res.json();
 });
 
 router.get('/vehiculo/:id', obtenerVehiculoById, (req, res) => {
+    //axios actualizar catalogo
     res.json();
 });
 
-router.put('/vehiculo/:id', actualizarVehiculo, (req, res) => {
+router.put('/vehiculo-actualizar/:id', actualizarVehiculo, (req, res) => {
+    //axios actualizar catalogo
     res.json();
 });
-router.delete('/vehiculo/:id', eliminarVehiculo, (req, res) => {
+
+router.delete('/vehiculo-eliminar/:id', eliminarVehiculo, (req, res) => {
+    //axios actualizar catalogo
     res.json();
 });
 

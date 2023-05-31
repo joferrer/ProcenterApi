@@ -30,12 +30,17 @@ const firestoreIdRegex = /^[a-zA-Z0-9]{20}$/;
 
 const schemaVenta = Joi.object({
   fechaCreacion: extendedJoi.date().format('DD/MM/YYYY'),
-  idvehiculo: Joi.string()
-    .regex(firestoreIdRegex)
-    .messages({
-      'string.base': 'El ID del vehículo debe ser una cadena de texto.',
-      'string.pattern.base': 'El ID del vehículo es inválido.',
-    }),
+  idvehiculo:  Joi.string()
+  .length(16)
+  .pattern(/^\d+$/)
+  .required()
+  .messages({
+    'string.base': 'La ID del vehiculo debe ser un valor de tipo string.',
+    'string.empty': 'La ID del vehiculo no puede estar vacía.',
+    'string.length': 'La ID del vehiculo debe tener una longitud de 16 caracteres.',
+    'string.pattern.base': 'La ID del vehiculo solo puede contener dígitos numéricos.',
+    'any.required': 'La ID del vehiculo es obligatoria y no puede ser nula.',
+  }),
 
   cliente: Joi.object({
     nombre: Joi.string()

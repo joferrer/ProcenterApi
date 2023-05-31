@@ -1,12 +1,11 @@
 const Vehiculo = require('../schemas/SchemaVehiculo.js');
-const {traerCatalogo} = require('./catalogo.js');
 
-//Funcion para dar formato a JSON del texto del catalogo    
-    const regexMark = /\b(Toyota|Nissan|Honda|Ford|Chevrolet|Renault|Kia|Peugeot|BMW|Mazda|Mitsubishi|SUZUKI)\b/gi;
-    const regexColor = /(?:COLOR\s*)(\S.*?)\s*\n/i;
-    const regexYear = /[0-9]{4}/;
-    const regexPlate = /PLACAS DE\s(.+?)\n/i;
-    const regexModel = /\b\w+\b/g;
+    //Funcion para dar formato a JSON del texto del catalogo    
+    const regexMark = /\b(Acura|Alfa Romeo|Aston Martin|Audi|Bentley|BMW|Bugatti|Buick|Cadillac|Chevrolet|Chrysler|Citroën|Citroen|Dacia|Daewoo|Daihatsu|Dodge|Ferrari|Fiat|Ford|Geely|Genesis|GMC|Honda|Hummer|Hyundai|Infiniti|Isuzu|Jaguar|Jeep|Kia|Koenigsegg|Lada|Lamborghini|Lancia|Land Rover|Lexus|Lincoln|Lotus|Maserati|Maybach|Mazda|McLaren|Mercedes-Benz|Mercury|MG|Mini|Mitsubishi|Nissan|Oldsmobile|Opel|Pagani|Peugeot|Porsche|RAM|Renault|Rolls-Royce|Saab|Saturn|Scion|Seat|Skoda|Smart|SsangYong|Subaru|Suzuki|Tesla|Toyota|Vauxhall|Volkswagen|Volvo)\b/gi; //ta bien
+
+    const regexColor = /(?:COLOR\s*)(\S.*?)\s*\n/i; //ta bien
+    const regexYear = /[0-9]{4}/; //ta bien
+    const regexModel = /\b\w+\b/g; //ta mal
     const regexDetails = /\n|(PLACAS DE[\s\S]*?✅)|(COLOR[\s\S]*?✅)|\nEN EL VALOR VA INCLUIDO LOS GASTOS TOTALES DE TRASPASO E IMPUESTOS AL 2022 YA PAGOS\n\n🎊CONTAMOS CON SISTEMA DE FINANCIACION🎊/mig;
     const regexMotor = /MOTOR\s(.+?)\n/i;
     const regexRin = /RIN\s(.+?)\n/i;
@@ -15,23 +14,21 @@ const {traerCatalogo} = require('./catalogo.js');
     //Variables para el JSON
     let id, marca, modelo, anio, motor, precio, color, rin, imagenes, placa, otros;
 
-    id = Number(item.id);
+    id = `${item.id}`;
     marca = item.name.match(regexMark);
-    marca = marca[0];
+    marca = marca != undefined ? marca[0] : "";
     color = item.description.match(regexColor);
     color[0] = color[0].slice(0, -1).replace("COLOR ", "");
     color = color[0];
-    modelo = item.name.match(regexModel);
+    modelo = item.name.match(regexModel); //revisar
     anio = Number(item.name.match(regexYear));
     motor = item.description.match(regexMotor);
+    motor = motor[0].replace("\n",'');
     rin =  item.description.match(regexRin);
+    rin = rin != undefined ? rin[0] : "";
     imagenes = item.images;
-    //placa
-    placa = item.description.match(regexPlate);
-    placa = placa[0].slice(0, -1).replace("PLACAS DE ", "")
-    //precio
     precio = item.price / 1000;
-    //otros
+    
     otros = item.description.replace(/\n{2}[\s\S]*/, "\n\n");
     otros = otros.replace(regexDetails, "");
     otros = otros.split("✅");
@@ -46,15 +43,12 @@ const {traerCatalogo} = require('./catalogo.js');
       color: color,
       rin : rin,
       imagenes : imagenes,
-      placa: placa,
       otros: otros,
       precio: precio
     };
     
-  
-    let vehiculoDTO = new Vehiculo(vehiculo);
-    JSON.stringify(vehiculoDTO)
-    return vehiculoDTO;
+    JSON.stringify(vehiculo);
+    return vehiculo;
   }
 
   module.exports = {

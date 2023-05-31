@@ -1,7 +1,8 @@
 const Joi = require('joi');
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-
+const JoiDate = require('@hapi/joi-date');
+const extendedJoi = Joi.extend(JoiDate);
 function validarNumeroTelefonico(numero) {
   try {
     const numeroParseado = phoneUtil.parse(numero);
@@ -54,11 +55,16 @@ modelo: Joi.string().regex(/^[\w\s]+$/).required()
       'string.pattern.base': 'El color no puede contener números o caracteres especiales',
       'any.required': 'El color es obligatorio'
     }),
-  motor: Joi.string().alphanum().required()
+    motor: Joi.string()
+    .min(3)
+    .max(40)
+    .required()
     .messages({
-      'string.base': 'El motor debe ser una cadena alfanumérica',
-      'string.empty': 'El motor no puede estar vacío',
-      'any.required': 'El motor es obligatorio'
+      'string.base': 'El motor debe ser una cadena de texto.',
+      'string.empty': 'El motor no debe estar vacío.',
+      'string.min': 'El motor debe tener al menos {#limit} caracteres.',
+      'string.max': 'El motor no debe exceder los {#limit} caracteres.',
+      'any.required': 'El motor es un campo requerido.',
     }),
   placa: Joi.string().regex(/^([A-Z]{3}\d{3}|[A-Z]{2}\d{3}[A-Z])$/).required()
     .messages({
@@ -82,7 +88,13 @@ modelo: Joi.string().regex(/^[\w\s]+$/).required()
       'number.max': 'El precio del dueño no puede ser mayor a 999,999,999,999',
       'any.required': 'El precio del dueño es obligatorio'
     }),
-  fechaMatricula: Joi.date().max('now').required(),
+    kilometraje: Joi.number().required()
+    .messages({
+      'number.base': 'El kilometraje debe de ser un número',
+      'number.empty': 'El kilometraje no puede estar vacío',
+      'any.required': 'El kilometraje es obligatorio'
+    }),
+    fechaMatricula: extendedJoi.date().format('DD/MM/YYYY').max('now').required(),
   soat: Joi.boolean().required()
     .messages({
       'boolean.base': 'El campo SOAT debe ser un valor booleano',
@@ -102,13 +114,19 @@ modelo: Joi.string().regex(/^[\w\s]+$/).required()
       'number.max': 'La cédula no puede tener más de 11 dígitos.',
       'any.required': 'La cédula es un campo requerido.',
     }),
-  nombredueno: Joi.string().regex(/^[^\d\s]+$/).required()
-    .messages({
-      'string.base': 'El nombre del dueño debe ser un texto válido',
-      'string.empty': 'El nombre del dueño no puede estar vacío',
-      'string.pattern.base': 'El nombre del dueño no puede contener números o caracteres especiales',
-      'any.required': 'El nombre del dueño es obligatorio'
-    }),
+  nombredueno: Joi.string()
+  .min(3)
+  .max(40)
+  .regex(/^[a-zA-Z ]+$/)
+  .required()
+  .messages({
+    'string.base': 'El nombre debe ser una cadena de texto.',
+    'string.empty': 'El nombre no debe estar vacío.',
+    'string.min': 'El nombre debe tener al menos {#limit} caracteres.',
+    'string.max': 'El nombre no debe exceder los {#limit} caracteres.',
+    'string.pattern.base': 'El nombre solo puede contener letras y espacios.',
+    'any.required': 'El nombre es un campo requerido.',
+  }),
   prenda: Joi.string().required()
     .messages({
       'string.base': 'La prenda debe ser una cadena de texto',
