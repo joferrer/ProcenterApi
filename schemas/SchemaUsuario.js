@@ -63,12 +63,6 @@ const SchemaUsuario = Joi.object({
       'any.required': 'El correo electrónico es un campo requerido.',
     }),
 
-  imagen: Joi.string()
-    .uri()
-    .messages({
-      'string.base': 'La imagen debe ser una cadena de texto.',
-      'string.uri': 'La imagen debe tener un formato de URI válido.',
-    }),
 
   telefono:  telefonoSchema,
 
@@ -78,7 +72,7 @@ const SchemaUsuario = Joi.object({
     .messages({
       'string.base': 'El rol debe ser una cadena de texto.',
       'string.empty': 'El rol no debe estar vacío.',
-      'any.only': 'El rol debe ser uno de los siguientes valores: ASESOR, CLIENTE, ADMIN, PUBLIC.',
+      'any.only': 'El rol debe ser uno de los siguientes valores: ASESOR, CLIENTE, ADMIN, PUBLICISTA.',
       'any.required': 'El rol es un campo requerido.',
     }),
 });

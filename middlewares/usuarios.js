@@ -58,7 +58,6 @@ async function crearUsuario(req, res, next) {
         nombre: req.body.nombre,  
         cedula: req.body.cedula,
         correo: req.body.correo, 
-        imagen: req.body.imagen,
         telefono: req.body.telefono,
         rol: req.body.rol,
         fechaVincu: formatoFecha(moment().format('DD/MM/YYYY')),
@@ -205,7 +204,6 @@ async function actualizarUsuario(req, res, next) {
         newnombre: req.body.nombre,
         newcedula: req.body.cedula,
         newcorreo: req.body.correo,
-        newimagen: req.body.imagen,
         newtelefono: req.body.telefono,
         newrol: req.body.rol
 
@@ -214,7 +212,6 @@ async function actualizarUsuario(req, res, next) {
         nombre: usuario.newnombre,
         cedula: usuario.newcedula,
         correo: usuario.newcorreo,
-        imagen: usuario.newimagen,
         telefono: usuario.newtelefono,
         rol: usuario.newrol
       })

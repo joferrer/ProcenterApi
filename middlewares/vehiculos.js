@@ -18,6 +18,7 @@ async function crearVehiculo(req, res, next) {
           modelo : req.body.modelo,
           anio : req.body.anio,
           motor :  req.body.motor,
+          kilometraje: req.body.kilometraje,
           color :  req.body.color, 
           rin :  req.body.rin,
           imagenes : req.body.imagenes,
@@ -93,7 +94,8 @@ async function crearVehiculo(req, res, next) {
           Newmodelo : req.body.modelo,
           Newanio : req.body.anio,
           Newmotor :  req.body.motor,
-          Newcolor :  req.body.color, 
+          Newcolor :  req.body.color,
+          Newkilometraje: req.body.kilometraje,
           Newrin :  req.body.rin,
           Newimagenes : req.body.imagenes,
           Newplaca : req.body.placa,
@@ -105,7 +107,8 @@ async function crearVehiculo(req, res, next) {
           modelo : vehiculo.Newmodelo,
           anio : vehiculo.Newanio,
           motor :  vehiculo.Newmotor,
-          color :  vehiculo.Newcolor, 
+          color :  vehiculo.Newcolor,
+          kilometraje: vehiculo.Newkilometraje,
           rin :  vehiculo.Newrin,
           imagenes : vehiculo.Newimagenes,
           placa : vehiculo.Newplaca,
@@ -131,7 +134,7 @@ async function crearVehiculo(req, res, next) {
       const userRef = db.collection("vehiculos").doc(id);
       const response = await userRef.get().then((doc) => {
         if (doc.exists) {
-          if(doc.data().estado==false){
+          if(doc.data().estado == false){
             res.status(400).send({"estado": false, "mensaje": "No puedes eliminar un vehiculo que esta en proceso de venta"})
           
           }
@@ -140,7 +143,6 @@ async function crearVehiculo(req, res, next) {
             res.status(200).send({"estado": true, "mensaje":"Eliminado con exito" });
           
           }
-       
           
         } else {
           console.log("no entro")

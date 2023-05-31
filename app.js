@@ -25,10 +25,6 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
-
-
-
-
 //Global Variables
 app.use((req, res, next) => {
   app.locals.db = req.db;
@@ -48,7 +44,12 @@ app.use(express.static(__dirname));
 
 const history = require('connect-history-api-fallback');
 app.use(history());
-//Vista para el back (temporal)
+
+
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+    console.log(`Server API running in http://localhost:${PORT}`);
+})
 
 /**
  * @swagger
@@ -162,7 +163,6 @@ app.use(history());
  *           example:
  *               nombre: "Jairo Caicedo"
  *               correo: "juansebastian@gmail.com"
- *               imagen: "https://cdn.onemars.net/sites/nutro_es_NkyIN_B9cV/image/20_1615903469720.jpeg"   
  *               telefono: "+573115609183"
  *               cedula: 3115609183
  *               rol: "CLIENTE" 
@@ -205,7 +205,7 @@ app.use(history());
  *         description: El usuario no existe
  *   
  * 
- * /uusuario/{id}:
+ * /actualizar-usuario/{id}:
  *   put:
  *     tags:
  *     - Gestion de usuarios
@@ -260,7 +260,7 @@ app.use(history());
  *
  * 
  * 
- * /dusuario/{id}:
+ * /eliminar-usuario/{id}:
  *   delete:
  *     tags:
  *     - Gestion de usuarios
@@ -277,7 +277,7 @@ app.use(history());
  *       400:
  *         description: El usuario no existe  
  * 
- * /ausuario/{id}:
+ * /activar-usuario/{id}:
  *   post:
  *     tags:
  *     - Gestion de usuarios
@@ -315,7 +315,9 @@ app.use(history());
  *           properties:
  *             idvehiculo:
  *               type: string
- *               pattern: "^[a-zA-Z0-9]{20}$"      
+ *               minLength: 16
+ *               maxLength: 16
+ *               pattern: "^[0-9]{16}$" 
  *             cliente:
  *               type: object
  *               properties:
@@ -323,7 +325,6 @@ app.use(history());
  *                   type: string
  *                   minLength: 3
  *                   maxLength: 40
- *                   pattern: "^[a-zA-Z ]+$"
  *                 cedula:
  *                   type: number
  *                   minimum: 1000000
@@ -427,7 +428,6 @@ app.use(history());
  *               maxLength: 255
  *             motor:
  *               type: string
- *               pattern: ^[a-zA-Z0-9]+$
  *               minLength: 1
  *               maxLength: 255
  *             placa:
@@ -443,6 +443,10 @@ app.use(history());
  *               type: number
  *               minimum: 0
  *               maximum: 999999999999
+ *             kilometraje:
+ *               type: number
+ *               minimum: 0
+ *               maximum: 10000000
  *             soat:
  *               type: boolean
  *             cedula:
@@ -468,6 +472,9 @@ app.use(history());
  *             impuestos:
  *               type: boolean
  *             detalles:
+ *               type: string
+ *               maxLength: 255
+ *             fechaMatricula:
  *               type: string
  *               maxLength: 255
  *             estado:
@@ -505,6 +512,7 @@ app.use(history());
  *             placa: "UED359"
  *             anio: 2023
  *             precioDueno: 30550000
+ *             kilometraje: 120000
  *             fechaMatricula: "01/12/2020"
  *             soat: true
  *             prenda: "OLX"
@@ -569,9 +577,159 @@ app.use(history());
  *         description: No se ha encontrado la adquisicion
  */
 
-
-
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-    console.log(`Server API running in http://localhost:${PORT}`);
-})
+/**
+ * @swagger
+ * /agregar-vehiculo:
+ *   post:
+ *     tags:
+ *     - Vehiculos
+ *     summary: Agrega un vehiculo en el sistema
+ *     description: Crea un vehiculo en la coleccion Vehiculos en la base de datos
+ *     parameters:
+ *       - in: body
+ *         name: vehiculo
+ *         required: true
+ *         description: Camppos de vehiculos obligatorios para agregar
+ *         schema:
+ *           type: object
+ *           properties:
+ *             nombre:
+ *               type: string
+ *             modelo:
+ *               type: string
+ *             anio:
+ *               type: integer
+ *             motor:
+ *               type: string
+ *             color:
+ *               type: string
+ *             rin:
+ *               type: string
+ *             imagenes:
+ *               type: object
+ *             placa:
+ *               type: string
+ *             otros:
+ *               type: string
+ *             precio:
+ *               type: integer  
+ *           example:
+ *               marca: "Toyota"
+ *               kilometraje: 23
+ *               modelo: "Hilux"
+ *               anio: 2021
+ *               motor: "MOTOR 8 caballos" 
+ *               color: "Negro" 
+ *               rin: "18 rin"
+ *               imagenes: { url1: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url2: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url3: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png"  }
+ *               placa: "KFG359"   
+ *               otros: "3105708967"
+ *               precio: 130000000 
+ *     responses:
+ *       200:
+ *         description: Vehiculo agregado correctamente
+ *       400:
+ *         description: Error al insertar el vehiculo, revisa la informacion que enviaste en el formulario
+ *        
+ * 
+ * /vehiculos:
+ *   
+ *  
+ *   get:
+ *     tags:
+ *     - Vehiculos
+ *     summary: Consultar todos los vehiculos del sistema
+ *     description: Consulta todos los vehiculos en la coleccion "Vehiculos" en la base de datos
+ *     responses:
+ *       200:
+ *         description: Lista de vehiculos cargados en el sistema
+ *       400:
+ *         description: Error al cargar vehiculo en la plataforma
+ *
+ * /vehiculo/{id}:
+ *   get:
+ *     tags:
+ *     - Vehiculos
+ *     summary: Consultar un vehiculo en el sistema
+ *     description: Consulta un vehiculo del sistema a traves de su ID del documento
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Campo de cadena de caracteres de la ID del vehiculo
+ *     responses:
+ *       200:
+ *         description: Consulta de vehiculo de manera exitosa
+ *       400:
+ *         description: Error vehiculo inexistente en la base de datos
+ *   
+ * 
+ * /vehiculo-actualizar/{id}:
+ *   put:
+ *     tags:
+ *     - Vehiculos
+ *     summary: Actualiza un vehiculo del sistema
+ *     description: Actualiza un vehiculo en la base de datos usando la ID de su documetno
+ *     parameters:
+ *       - in: body
+ *         name: usuario
+ *         required: true
+ *         description: Campo de cadena de caracteres de la ID del vehiculo
+ *         schema:
+ *           type: object
+ *           properties:
+ *             nombre:
+ *               type: string
+ *             correo:
+ *               type: string
+ *               format: email
+ *             imagen:
+ *               type: string
+ *               format: uri   
+ *             telefono:
+ *               type: integer
+ *             rol:
+ *               type: string
+ *               enum:
+ *                 - ASESOR
+ *                 - CLIENTE
+ *                 - ADMIN
+ *                 - PUBLIC
+ *           example:
+ *               marca: "Toyota"
+ *               modelo: "Hilux"
+ *               anio: 2021
+ *               motor: "MOTOR 8 caballos" 
+ *               color: "Negro" 
+ *               rin: "18 rin"
+ *               imagenes: { url1: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url2: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png", url3: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Pac-Man_Cutscene.svg/283px-Pac-Man_Cutscene.svg.png"  }
+ *               placa: "KFG359"   
+ *               otros: "3105708967"
+ *               precio: 130000000 
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Campo de cadena de caracteres de la ID del vehiculo
+ *     responses:
+ *       200:
+ *         description: vehiculo actualizado correctamente
+ *       400:
+ *         description: Error al actualizar el vehiculo, revisa la informacion que enviaste en el formulario
+ * 
+ * /vehiculo-eliminar/{id}:
+ *   delete:
+ *     tags:
+ *     - Vehiculos
+ *     summary: Eliminar un un vehiculo del sistema
+ *     description: Elimina un vehiculo de la coleccion "vehiculos" por medio de su id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Campo de cadena de caracteres de la ID del vehiculo
+ *     responses:
+ *       200:
+ *         description: Eliminacion de vehiculo de manera exitosa
+ *       400:
+ *         description: Error vehiculo inexistente en la base de datos         
+ */

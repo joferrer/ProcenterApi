@@ -4,6 +4,7 @@ const SchemaVehiculo = Joi.object({
     marca : Joi.string().min(2).max(40).regex(/^[a-zA-Z0-9 ]*$/).required(),
     modelo : Joi.string().min(2).max(40).regex(/^[a-zA-Z0-9 ]*$/).required(),
     anio : Joi.number().min(1960).max(2023).required(),
+    kilometraje:Joi.number().required(),
     motor : Joi.string().min(2).max(40).regex(/^[a-zA-Z0-9 ]*$/).required(),
     color : Joi.string().min(2).max(40).regex(/^[a-zA-Z0-9 ]*$/).required(),
     rin : Joi.string().min(2).max(40).regex(/^[a-zA-Z0-9 ]*$/).required(),
