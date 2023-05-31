@@ -12,9 +12,10 @@ const Vehiculo = require('../schemas/SchemaVehiculo.js');
 
  function formatoCatalogo(item) {
     //Variables para el JSON
-    let id, marca, modelo, anio, motor, precio, color, rin, imagenes, placa, otros;
+    let id, marca, modelo, anio, motor, precio, color, rin, imagenes, placa, otros, nombre;
 
     id = `${item.id}`;
+    nombre = item.name;
     marca = item.name.match(regexMark);
     marca = marca != undefined ? marca[0] : "";
     color = item.description.match(regexColor);
@@ -37,6 +38,7 @@ const Vehiculo = require('../schemas/SchemaVehiculo.js');
     let vehiculo = { 
       id : id,
       marca: marca,
+      nombre: nombre,
       modelo: modelo,
       anio: anio,
       motor: motor,

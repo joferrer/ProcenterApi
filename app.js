@@ -62,7 +62,7 @@ app.listen(PORT, () => {
  *     responses:
  *       200:
  *         description: Datos del catálogo obtenidos correctamente
- *       500:
+ *       400:
  *         description: Error al obtener el catálogo
  */
 
@@ -116,7 +116,7 @@ app.listen(PORT, () => {
  *         description: No se proporcionó ninguna imagen
  *       404:
  *         description: Vehículo no encontrado
- *       500:
+ *       405:
  *         description: Error al subir la imagen a S3
  */
 

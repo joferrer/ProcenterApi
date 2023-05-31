@@ -10,7 +10,7 @@ async function consultarCatalogo(req, res, next) {
       const autos = [];
       if(querySnapshot.empty){
         req.autos = {estado:false, mensaje: "No hay ningun vehiculo disponible en el catalogo"}
-        next();
+        next(); 
       }
       querySnapshot.forEach((doc) => {
             autos.push(doc.data());
