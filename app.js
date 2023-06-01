@@ -62,7 +62,7 @@ app.listen(PORT, () => {
  *     responses:
  *       200:
  *         description: Datos del catálogo obtenidos correctamente
- *       500:
+ *       400:
  *         description: Error al obtener el catálogo
  */
 
@@ -116,7 +116,7 @@ app.listen(PORT, () => {
  *         description: No se proporcionó ninguna imagen
  *       404:
  *         description: Vehículo no encontrado
- *       500:
+ *       405:
  *         description: Error al subir la imagen a S3
  */
 
@@ -314,10 +314,9 @@ app.listen(PORT, () => {
  *           type: object
  *           properties:
  *             idvehiculo:
- *               type: string
- *               minLength: 16
- *               maxLength: 16
- *               pattern: "^[0-9]{16}$" 
+ *               type: number
+ *               minimum: 1000000000000000000
+ *               maximum: 999999999999999999999
  *             cliente:
  *               type: object
  *               properties:
@@ -344,7 +343,7 @@ app.listen(PORT, () => {
  *               type: string
  *               pattern: "^[a-zA-Z0-9]{20}$"
  *           example:
- *               idvehiculo: "ABC123456789"
+ *               idvehiculo: 6697431286937898
  *               cliente:
  *                 nombre: "Jairo Caicedo"
  *                 cedula: 28986472
