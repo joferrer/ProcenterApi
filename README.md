@@ -18,8 +18,8 @@ Este proyecto es la capa de Back End del proyecto ProcenterAutos web, que ofrece
 ## Lista de Contenido
 - [Instalacion](#instalacion)
 - [Uso](#uso)
+- [Rutas del Proyecto](#rutas)
 - [Autores](#autores)
-- [Licencia](#licencia)
 
 ## instalacion
 
@@ -35,26 +35,21 @@ Luego, nos vamos a la carpeta donde clonamos el repositorio, abrimos el proyecto
 Actualmente abres una ** instancia de la consola de comando  y ejecutas la siguiente linea de codigo:
 </br>
 <code>npm run dev</code>
-### Rutas del proyecto
-Puedes ver todas las peticiones https desde nuestra [API REST Documentacion con Swagger(https://nodejs.org/es/download) para mayor detalle, a continuacion se hablara de cada una de las peticiones catalogadas en los diferentes modulo del sistema
-#### Usuarios
-##### Crear un nuevo
-Enviaremos una peticion de tipo POST para insertar un nuevo usuario en la base de datos, para ello en el cuerpo de la peticion, necesitamos recibir los siguientes parametros:
-| **Nombre** | **Tipo de Dato** |                      **Descripcion**                     |
-|:----------:|:----------------:|:--------------------------------------------------------:|
-|   Nombre   |      String      |                Nombre completo del usuario               |
-|   Correo   |       Email      |              Correo Electronico del Usuario              |
-|   Imagen   |      String      |                  Url de icono de perfil                  |
-|  Telefono  |      Number      |             Un numero de contacto del usuario            |
-|     Rol    |      String      | Un rol que juega el usuario como Asesor, Admin o Cliente |
-
-**URL**: https:localhost:4000/cusuario, method: **POST**
-> Se aconseja herramienta para elaborar peticiones http, algunas herramientas que recomendamos son [*POSTMAN*](https://www.postman.com/), 
-[*Thunder Client for Visual Studio Code*](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client), entre otras
-
-
+> Por defecto, arranca en el proyecto localhost:4000
+### rutas
+Puedes ver todas las peticiones https desde nuestra [API REST Documentacion con Swagger](https://procenterapi-production.up.railway.app/api-docs/)  a continuacion se abarca cada uno de estos modulos:
+#### catalogo
+![Modulo de Catalogo](https://github.com/joferrer/ProcenterApi/assets/62295874/86bd1707-e31f-4f29-bd6f-0daa896c6672)
+> Puedes accederlo desde https://procenterapi-production.up.railway.app/api-docs/#/Catalogo
+#### usuario
+![Modulo de Usuarios](https://github.com/joferrer/ProcenterApi/assets/62295874/9b4a7eb0-a299-4250-88e1-16f6b11e6736)
+> Puedes accederlo desde https://procenterapi-production.up.railway.app/api-docs/#/Gestion%20de%20usuarios
+#### ventas
+![Modulo de Ventas](https://github.com/joferrer/ProcenterApi/assets/62295874/3cecd85f-676a-48cf-9b23-ddccc14b82f1)
+> Puedes accederlo desde https://procenterapi-production.up.railway.app/api-docs/#/Registro%20de%20Ventas
+#### adquisiciones
+![Modulo de Adquisiciones](https://github.com/joferrer/ProcenterApi/assets/62295874/d5aeef20-f52c-4ad1-8dc1-25935a51e43b)
+> Puedes accederlo desde https://procenterapi-production.up.railway.app/api-docs/#/Adquisiciones
 ### autores
-
-
-### licencia
+> Gracias al desarrollo de Marlon Stiven Prado, Walfram Tiria y Andres Camperos
 
