@@ -314,10 +314,9 @@ app.listen(PORT, () => {
  *           type: object
  *           properties:
  *             idvehiculo:
- *               type: string
- *               minLength: 16
- *               maxLength: 16
- *               pattern: "^[0-9]{16}$" 
+ *               type: number
+ *               minimum: 1000000000000000000
+ *               maximum: 999999999999999999999
  *             cliente:
  *               type: object
  *               properties:
@@ -344,7 +343,7 @@ app.listen(PORT, () => {
  *               type: string
  *               pattern: "^[a-zA-Z0-9]{20}$"
  *           example:
- *               idvehiculo: "ABC123456789"
+ *               idvehiculo: 6697431286937898
  *               cliente:
  *                 nombre: "Jairo Caicedo"
  *                 cedula: 28986472

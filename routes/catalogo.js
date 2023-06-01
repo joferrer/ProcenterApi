@@ -48,7 +48,7 @@ router.post("/desactivar-vehiculo/:id", desactivarDisponible, (req, res) => {
   if (res.estado) {
     return res.status(200).send({
       estado: res.estado,
-      mensaje: `${res.message}`,
+      mensaje: `${res.message}`, //y eso pa
     });
   } else {
     return res.status(400).send({
