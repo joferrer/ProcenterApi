@@ -36,6 +36,9 @@ app.use(require('./routes/vehiculos'));
 app.use(require('./routes/adquisiciones'));
 app.use(require('./routes/venta'));
 app.use(require('./routes/usuarios'));
+app.use(require('./routes/resenia'));
+app.use(require('./routes/infoempresarial'));
+app.use(require('./routes/asesorlinks'));
 app.use(require('./routes/catalogo'));
 app.use(require('./routes/autentificacion'));
 //Vista para el back (temporal)
@@ -57,7 +60,7 @@ app.listen(PORT, () => {
  *   get:
  *     summary: Consulta el catálogo de autos
  *     description: Obtiene el catálogo de autos disponibles
- *     tags:
+ *     tags: 
  *       - Catalogo
  *     responses:
  *       200:
@@ -731,4 +734,76 @@ app.listen(PORT, () => {
  *         description: Eliminacion de vehiculo de manera exitosa
  *       400:
  *         description: Error vehiculo inexistente en la base de datos         
+ */
+/**
+ * @swagger
+ * /info-empresa:
+ *   get:
+ *     summary: Obtiene la informacion empresarial
+ *     description: Obtiene la mision, vision e imagenes asociadas a la empresa
+ *     tags:
+ *       - Ecommerce
+ *     responses:
+ *       200:
+ *         description: Informacion Empresarial cargado con exito
+ *       400:
+ *         description: Error al elaborar la peticion
+ */
+/**
+ * @swagger
+ * /info-empresa:
+ *   get:
+ *     summary: Obtiene la informacion empresarial
+ *     description: Obtiene la mision, vision e imagenes asociadas a la empresa
+ *     tags:
+ *       - Ecommerce
+ *     responses:
+ *       200:
+ *         description: Informacion Empresarial cargado con exito
+ *       400:
+ *         description: Error al elaborar la peticion
+ */
+/**
+ * @swagger
+ * /info-empresa:
+ *   get:
+ *     summary: Obtiene la informacion empresarial
+ *     description: Obtiene la mision, vision e imagenes asociadas a la empresa
+ *     tags:
+ *       - Ecommerce
+ *     responses:
+ *       200:
+ *         description: Informacion Empresarial cargado con exito
+ *       400:
+ *         description: Error al elaborar la peticion
+ */
+
+/**
+ * @swagger
+ * /reviews:
+ *   get:
+ *     summary: Obtiene la reseñas de los clientes
+ *     description: Obtiene las reseñas de las ventas
+ *     tags:
+ *       - Ecommerce
+ *     responses:
+ *       200:
+ *         description: reseñas cargado con exito
+ *       400:
+ *         description: Error al elaborar la peticion
+ */
+
+/**
+ * @swagger
+ * /asesor-links:
+ *   get:
+ *     summary: Obtiene los links de contacto
+ *     description: Obtiene los links de contacto de asesores
+ *     tags:
+ *       - Ecommerce
+ *     responses:
+ *       200:
+ *         description: Listado de links de contacto cargado con exito
+ *       400:
+ *         description: Error al elaborar la peticion
  */
