@@ -56,15 +56,15 @@ async function adquisicionVehiculos(req, res, next) {
       if (!publicSnapshot.exists) {
         return res
           .status(400)
-          .send({ estado: false, mensaje: "El ID del Publicista no existe" });
+          .send({ estado: false, mensaje: "El ID del Publicista/Ad no eminxiste" });
       } else {
-        if (publicista.rol != "PUBLICISTA") {
+        if (!(asesor.rol === "ASESOR" || asesor.rol === "ADMIN")) {
           return res
             .status(400)
             .send({
               estado: false,
               mensaje:
-                "El ID no corresponde a un usuario con rol de publicista",
+                "El ID no corresponde a un usuario con rol de publicista/admin",
             });
         } else {
           if (publicista.estado != true) {
@@ -73,7 +73,7 @@ async function adquisicionVehiculos(req, res, next) {
               .send({
                 estado: false,
                 mensaje:
-                  "El ID no corresponde a un usuario con rol de publicista que se encuentre activo",
+                  "El ID no corresponde a un usuario con rol de publicista/admin que se encuentre activo",
               });
           }
         }
@@ -230,7 +230,7 @@ async function adquisicionVehiculos(req, res, next) {
           placa: req.body.placa,
           anio: req.body.anio,
           precioDueno: req.body.precioDueno,
-          kilometraje : req.body.kilometraje,
+          kilometraje: req.body.kilometraje,
           fechaCreacion: formatoFecha(moment().format("DD/MM/YYYY")),
           soat: true,
           prenda: req.body.prenda,

@@ -87,7 +87,7 @@ async function obtenerUsuarios(req, res, next) {
       responseArr.push(doc.data());
     });
     res.status(200).send({ "estado": true, "mensaje": "¡Lista de usuario cargado con exito!", "data": responseArr })
-    next();
+    
   }
   catch (error) {
     console.log
@@ -165,7 +165,9 @@ async function actualizarUsuario(req, res, next) {
     const clienteSnapshotTelefono= await clienteRefTelefono.where('telefono', '==', idclienteTelefono).get();
     
 
-    
+    console.log("168",clienteSnapshotCedula.empty);
+    console.log("169",userccdocument);
+
     if (!clienteSnapshotCedula.empty && req.body.cedula != userccdocument) {
       return res.status(400).send(({ estado: false, mensaje: "La cedula del cliente ya existe en algun registro de la base de datos" }));
     }
@@ -201,16 +203,12 @@ async function actualizarUsuario(req, res, next) {
       }
 
       const usuario = {
-        newnombre: req.body.nombre,
-        newcedula: req.body.cedula,
         newcorreo: req.body.correo,
         newtelefono: req.body.telefono,
         newrol: req.body.rol
 
       }
       const usuariodoc = await db.collection("usuarios").doc(id).update({
-        nombre: usuario.newnombre,
-        cedula: usuario.newcedula,
         correo: usuario.newcorreo,
         telefono: usuario.newtelefono,
         rol: usuario.newrol

@@ -63,6 +63,12 @@ const SchemaUsuario = Joi.object({
       'any.required': 'El correo electrónico es un campo requerido.',
     }),
 
+    imagen: Joi.string()
+    .uri()
+    .messages({
+      'string.base': 'La imagen debe ser una cadena de texto.',
+      'string.uri': 'La imagen debe tener un formato de URI válido.',
+    }),
 
   telefono:  telefonoSchema,
 
