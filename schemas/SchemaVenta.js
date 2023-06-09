@@ -32,14 +32,15 @@ const schemaVenta = Joi.object({
   fechaCreacion: extendedJoi.date().format('DD/MM/YYYY'),
   idvehiculo:  Joi.number()
   .integer()
-  .min(1000000000000000000)
-  .max(999999999999999999999)
+  .min(1000000000000)
+  .max(9999999999999999999999999)
+  .required()
   .messages({
-    'number.base': 'El valor debe ser un número.',
-    'number.integer': 'El número debe ser un entero.',
-    'number.min': 'El número debe tener al menos 19 dígitos.',
-    'number.max': 'El número debe tener como máximo 21 dígitos.',
-  }),
+    'number.base': 'El id de vehiculo debe ser un número.',
+    'number.integer': 'El vehiculo debe ser un entero.',
+    'number.min': 'El vehiculo debe tener al menos 12 dígitos.',
+    'number.max': 'El vehiculo debe tener como máximo 25 dígitos.',
+  }),  
   cliente: Joi.object({
     nombre: Joi.string()
       .min(3)

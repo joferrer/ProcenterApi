@@ -33,8 +33,8 @@ async function cventa(req, res, next) {
     if (error) {
       return res.status(400).send({ "estado": false, "error": error.details[0].message });
     }
-
-    const idvehiculo = req.body.idvehiculo;
+    const idveh = req.body.idvehiculo;
+    const idvehiculo = idveh.toString();
     const vehiculoRef = db.collection("vehiculos").doc(idvehiculo);
     const vehiculoSnapshot = await vehiculoRef.get();
     const vehiculo = vehiculoSnapshot.data();
@@ -58,15 +58,17 @@ async function cventa(req, res, next) {
     }}
 
     if (!asesorSnapshot.exists) {
-      return res.status(400).send(({ estado: false, mensaje: "El ID del asesor no existe" }));
+      return res.status(400).send(({ estado: false, mensaje: "El ID del asesor/admin no existe" }));
     }
     else {
-      if (asesor.rol != "ASESOR") {
-        return res.status(400).send(({ estado: false, mensaje: "El ID no corresponde a un usuario con rol de asesor" }));
+     
+      if (!(asesor.rol === "ASESOR" || asesor.rol === "ADMIN")) {
+        console.log("64",asesor.rol)
+        return res.status(400).send(({ estado: false, mensaje: "El ID no corresponde a un usuario con rol de asesor/admin" }));
       }
       else {
         if (asesor.estado != true) {
-          return res.status(400).send(({ estado: false, mensaje: "El ID no corresponde a un usuario con rol de asesor que se encuentre activo" }));
+          return res.status(400).send(({ estado: false, mensaje: "El ID no corresponde a un usuario con rol de asesor/admin que se encuentre activo" }));
         }
       }
     }
@@ -115,7 +117,7 @@ async function cventa(req, res, next) {
       const correoc = usuarioObject.correo
       const telefonoc = usuarioObject.telefono
      
-
+      
       const venta = {
         id: db.collection("ventas").doc().id,
         fechaCreacion: formatoFecha(moment().format('DD/MM/YYYY')),

@@ -8,6 +8,7 @@ const {
   desactivarDisponible,
   actualizarPlaca,
   agregarImagen,
+  consultarCatalogoRango,
   consultarImagenes,
 } = require("../middlewares/catalogo");
 
@@ -18,6 +19,22 @@ const { id } = require("../schemas/SchemaVehiculo");
 
 // Desde firestore
 router.get("/catalogo", consultarCatalogo, (req, res) => {
+  try {
+    res.json(req.autos);
+  } catch (error) {
+    return console.log(error);
+  }
+});
+
+router.get("/catalogo/:id", consultarCatalogo, (req, res) => {
+  try {
+    res.json(req.autos);
+  } catch (error) {
+    return console.log(error);
+  }
+});
+
+router.get("/catalogoRango/:id", consultarCatalogoRango, (req, res) => {
   try {
     res.json(req.autos);
   } catch (error) {

@@ -36,7 +36,7 @@ app.use(require('./routes/vehiculos'));
 app.use(require('./routes/adquisiciones'));
 app.use(require('./routes/venta'));
 app.use(require('./routes/usuarios'));
-app.use(require('./routes/catalogo'));
+app.use(require('./routes/catalogo')); 
 app.use(require('./routes/autentificacion'));
 //Vista para el back (temporal)
 
@@ -47,6 +47,7 @@ app.use(history());
 
 
 const PORT = process.env.PORT || 4000;
+
 app.listen(PORT, () => {
     console.log(`Server API running in http://localhost:${PORT}`);
 })
@@ -80,12 +81,62 @@ app.listen(PORT, () => {
  *         description: ID del vehículo a desactivar
  *         required: true
  *         schema:
- *           type: string
+ *           type: number
  *     responses:
  *       200:
  *         description: Vehículo desactivado correctamente
  *       400:
  *         description: Error al desactivar el vehículo
+ *       404:
+ *         description: Vehículo no encontrado
+ *
+* @swagger
+ * /catalogoRango/{id}:
+ *   get:
+ *     summary: Obtener vehiculos por un rango
+ *     description: Obtiene la lista de vehiculos del catalogo por medio de un valor numerico
+ *     tags:
+ *       - Catalogo
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: Cantidad de vehiculos a traer
+ *         required: true
+ *         schema:
+ *           type: number
+ *     responses:
+ *       200:
+ *         description: La cantidad de documentos solicitados no es válida
+ *       400:
+ *         description: Error al desactivar el vehículo
+ *       404:
+ *         description: Vehículo no encontrado
+ *
+ * /actualizarPlaca:
+ *   post:
+ *     summary: Agregar la placa de un vehiculo
+ *     description: Agrega o actualiza la placa de un vehiculo existente
+ *     tags:
+ *       - Catalogo
+ *     parameters:
+ *       - in: body
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             idvehiculo:
+ *               type: number
+ *             placa:
+ *               type: string
+ *           example:
+ *               idvehiculo: 4906346732823173
+ *               placa: KFG359
+ *     responses:
+ *       200:
+ *         description: Placa de vehiculo agregado o actualizado correctamente
+ *       400:
+ *         description: Error al insertar la placa de vehiculo
  *       404:
  *         description: Vehículo no encontrado
  */
@@ -132,12 +183,12 @@ app.listen(PORT, () => {
  *     tags:
  *     - Gestion de usuarios
  *     summary: Agrega un usuario en el sistema
- *     description: a a traves de su ID como parametro en la busqueda
+ *     description: Inserta un nuevo usuario al sistema
  *     parameters:
  *       - in: body
  *         name: usuario
  *         required: true
- *         description: Datos del usuario para agregar
+ *         description: El usuario debe enviar obligatoriamente los siguiente parametros=  nombre, correo, telefono, cedula, rol
  *         schema:
  *           type: object
  *           properties:
@@ -215,8 +266,7 @@ app.listen(PORT, () => {
  *       - in: body
  *         name: usuario
  *         required: true
- *         description: Cuerpo de informacion de la DATA que el usuario se deba actualizar
- *   
+ *         description: El usuario debe enviar obligatoriamente los siguiente parametros=  nombre, correo, telefono, cedula, rol
  *         schema:
  *           type: object
  *           properties:
@@ -225,9 +275,6 @@ app.listen(PORT, () => {
  *             correo:
  *               type: string
  *               format: email
- *             imagen:
- *               type: string
- *               format: uri   
  *             telefono:
  *               type: string
  *             cedula:
@@ -242,10 +289,9 @@ app.listen(PORT, () => {
  *           example:
  *               nombre: "Jairo Caicedo"
  *               correo: "juansebastian@gmail.com"
- *               imagen: "https://cdn.onemars.net/sites/nutro_es_NkyIN_B9cV/image/20_1615903469720.jpeg"   
- *               telefono: 3115609183
- *               rol: "CLIENTE" 
+ *               telefono: "+573115609183"
  *               cedula: 28986472
+ *               rol: "CLIENTE"
  *       - in: path
  *         name: id
  *         required: true
@@ -260,7 +306,7 @@ app.listen(PORT, () => {
  *
  * 
  * 
- * /eliminar-usuario/{id}:
+ * /desactivar-usuario/{id}:
  *   delete:
  *     tags:
  *     - Gestion de usuarios
@@ -315,19 +361,13 @@ app.listen(PORT, () => {
  *           properties:
  *             idvehiculo:
  *               type: number
- *               minimum: 1000000000000000000
- *               maximum: 999999999999999999999
  *             cliente:
  *               type: object
  *               properties:
  *                 nombre:
  *                   type: string
- *                   minLength: 3
- *                   maxLength: 40
  *                 cedula:
  *                   type: number
- *                   minimum: 1000000
- *                   maximum: 99999999999
  *                 correo:
  *                   type: string
  *                   format: email
@@ -407,33 +447,16 @@ app.listen(PORT, () => {
  *               type: string
  *             nombre:
  *               type: string
- *               pattern: ^[\w\s]+$
- *               minLength: 1
- *               maxLength: 255
  *             marca:
  *               type: string
- *               pattern: ^[a-zA-Z0-9\-]+$
- *               minLength: 1
- *               maxLength: 255
  *             modelo:
  *               type: string
- *               pattern: ^[\w\s]+$
- *               minLength: 1
- *               maxLength: 255
  *             color:
  *               type: string
- *               pattern: ^[^\d\s]+$
- *               minLength: 1
- *               maxLength: 255
  *             motor:
  *               type: string
- *               minLength: 1
- *               maxLength: 255
  *             placa:
  *               type: string
- *               pattern: ^([A-Z]{3}\d{3}|[A-Z]{2}\d{3}[A-Z])$
- *               minLength: 1
- *               maxLength: 255
  *             anio:
  *               type: integer
  *               minimum: 1
@@ -454,7 +477,6 @@ app.listen(PORT, () => {
  *               maximum: 99999999999
  *             nombredueno:
  *               type: string
- *               pattern: ^[^\d\s]+$
  *               minLength: 1
  *               maxLength: 255
  *             prenda:
@@ -480,9 +502,7 @@ app.listen(PORT, () => {
  *               type: boolean
  *             idpublic:
  *               type: string
- *               pattern: ^[a-zA-Z0-9]{20}$
- *               minLength: 1
- *               maxLength: 255
+ *               
  *           required:
  *             - nombre
  *             - marca

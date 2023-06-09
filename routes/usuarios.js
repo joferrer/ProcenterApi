@@ -64,7 +64,7 @@ router.put('/actualizar-usuario/:id', actualizarUsuario, (req, res) => {
  * @param {object} res - El objeto de respuesta.
  * @returns {void}
  */
-router.delete('/eliminar-usuario/:id', desactivarUsuario, (req, res) => {
+router.delete('/desactivar-usuario/:id', desactivarUsuario, (req, res) => {
     res.json();
 });
 
