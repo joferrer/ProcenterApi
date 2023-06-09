@@ -1,7 +1,7 @@
 const Vehiculo = require('../schemas/SchemaVehiculo.js');
 
     //Funcion para dar formato a JSON del texto del catalogo    
-    const regexMark = /\b(Acura|Alfa Romeo|Aston Martin|Audi|Bentley|BMW|Bugatti|Buick|Cadillac|Chevrolet|Chrysler|Citroën|Citroen|Dacia|Daewoo|Daihatsu|Dodge|Ferrari|Fiat|Ford|Geely|Genesis|GMC|Honda|Hummer|Hyundai|Infiniti|Isuzu|Jaguar|Jeep|Kia|Koenigsegg|Lada|Lamborghini|Lancia|Land Rover|Lexus|Lincoln|Lotus|Maserati|Maybach|Mazda|McLaren|Mercedes-Benz|Mercury|MG|Mini|Mitsubishi|Nissan|Oldsmobile|Opel|Pagani|Peugeot|Porsche|RAM|Renault|Rolls-Royce|Saab|Saturn|Scion|Seat|Skoda|Smart|SsangYong|Subaru|Suzuki|Tesla|Toyota|Vauxhall|Volkswagen|Volvo)\b/gi; //ta bien
+    const regexMark = /\b(Acura|Alfa Romeo|Aston Martin|Audi|Bentley|BMW|Bugatti|Buick|Cadillac|Chevrolet|Chrysler|Citroën|Citroen|Dacia|Daewoo|Daihatsu|Dodge|Ferrari|Fiat|Ford|Geely|Genesis|GMC|Honda|Hummer|Hyundai|Infiniti|Isuzu|Jaguar|Jeep|Kia|Koenigsegg|Lada|Lamborghini|Lancia|Land Rover|Lexus|Lincoln|Lotus|Maserati|Maybach|Mazda|McLaren|Mercedes|Mercedes-Benz||Mercedes Benz|Mercury|MG|Mini|Mitsubishi|Nissan|Oldsmobile|Opel|Pagani|Peugeot|Porsche|RAM|Renault|Rolls-Royce|Saab|Saturn|Scion|Seat|Skoda|Smart|SsangYong|Subaru|Suzuki|Tesla|Toyota|Vauxhall|Volkswagen|Volvo)\b/gi; //ta bien
 
     const regexColor = /(?:COLOR\s*)(\S.*?)\s*\n/i; //ta bien
     const regexYear = /[0-9]{4}/; //ta bien
