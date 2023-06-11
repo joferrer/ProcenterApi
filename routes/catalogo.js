@@ -8,7 +8,6 @@ const {
   desactivarDisponible,
   actualizarPlaca,
   agregarImagen,
-  consultarCatalogoRango,
   consultarImagenes,
 } = require("../middlewares/catalogo");
 
@@ -34,13 +33,6 @@ router.get("/catalogo/:id", consultarCatalogo, (req, res) => {
   }
 });
 
-router.get("/catalogoRango/:id", consultarCatalogoRango, (req, res) => {
-  try {
-    res.json(req.autos);
-  } catch (error) {
-    return console.log(error);
-  }
-});
 
 router.post("/actualizar-catalogo", async (req, res) => {
   try {
