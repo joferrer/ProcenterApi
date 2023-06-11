@@ -6,4 +6,9 @@ router.get('/reviews', obtenerResenias, (req, res) => {
     res.json();
 });
 
+router.post('/agregarResena', AgregarResenias, (req, res) => {
+    res.json();
+});
+
+
 module.exports = router;
