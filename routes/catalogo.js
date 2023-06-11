@@ -12,7 +12,7 @@ const {
   consultarImagenes,
 } = require("../middlewares/catalogo");
 
-const keys = require("../awsConfig/aws-credencial.json");
+const keys = require("../awsConfig/aws-credentials.json");
 const { traerCatalogo } = require("../helpers/catalogo");
 const { formatoCatalogo } = require("../helpers/formatoCatalogo");
 const { id } = require("../schemas/SchemaVehiculo");

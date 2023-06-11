@@ -1,14 +1,13 @@
 const multer = require('multer');
 const AWS = require('aws-sdk');
-const keys = require('./aws-credencial.json');
 
 // Configuración de Multer para almacenar la imagen en memoria
 const upload = multer();
 
 // Configuración de AWS SDK
 AWS.config.update({
-  accessKeyId: keys.accessKeyId,
-  secretAccessKey: keys.secretAccessKey
+  accessKeyId: process.env.ACCESS_KEY,
+  secretAccessKey: process.env.SECRET_KEY_AWS
 });
 
 module.exports = { upload , AWS};
