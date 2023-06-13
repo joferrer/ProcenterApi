@@ -92,33 +92,30 @@ async function actualizarPlaca(req, res, next){
     
 }
 
-async function agregarImagen(imagenes, idVehiculo) {
+async function agregarImagen(nuevasImagenes, idVehiculo) {
   try {
     const id = idVehiculo;
     const collectionRef = db.collection('vehiculos').doc(id);
 
-    let vehiculo = await consultarImagenes(idVehiculo);
-    if (!vehiculo) {
+    let vehiculoImagenes = await consultarImagenes(idVehiculo);
+    console.log(vehiculoImagenes)
+    if (!vehiculoImagenes) {
       // El vehículo no existe, se retorna un mensaje de error
       return { estado: false, mensaje: `El vehículo ${idVehiculo} no ha sido encontrado` };
     }
 
-    let imagenIndex = Object.keys(vehiculo).length + 1;
-
-    imagenes.forEach(img => {
-      const clave = `url${imagenIndex}`;
-      vehiculo[clave] = img;
-      imagenIndex++;
+    // Asignar las nuevas imágenes directamente a la propiedad imagenes
+    nuevasImagenes.forEach(e => {
+      vehiculoImagenes.push(e);
     });
 
-    const updateData = {
-      imagenes: vehiculo
+    let updateData = {
+      imagenes: vehiculoImagenes
     };
 
     await collectionRef.update(updateData);
-
     // Las imágenes se han agregado correctamente al vehículo
-    return { estado: true, mensaje: `Las imágenes se han agregado correctamente al vehículo ${idVehiculo}` };
+    return { estado: true, mensaje: `Las imágenes se han agregado correctamente al vehículo ${idVehiculo}`, imagenes : vehiculoImagenes };
   } catch (error) {
     console.error(error);
     return { estado: false, mensaje: 'Ha ocurrido un error al agregar las imágenes' };
