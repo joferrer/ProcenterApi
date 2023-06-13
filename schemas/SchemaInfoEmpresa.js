@@ -6,7 +6,7 @@ const SchemaInfoEmpresa = Joi.object({
     .max(1024)
     .regex(/^[a-zA-Z0-9 ]+$/)
     .required()
-    .messages({
+    .messages({ 
       'string.base': 'La misión debe ser una cadena de texto.',
       'string.empty': 'La misión no debe estar vacía.',
       'string.min': 'La misión debe tener al menos {#limit} caracteres.',
@@ -14,7 +14,7 @@ const SchemaInfoEmpresa = Joi.object({
       'string.pattern.base':   'El nombre solo puede contener letras y espacios.',
       'any.required': 'La misión es un campo requerido.',
     }),
-
+//
   vision: Joi.string()
   .min(3)
   .max(1024)

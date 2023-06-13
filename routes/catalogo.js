@@ -26,7 +26,7 @@ router.get("/catalogo", consultarCatalogo, (req, res) => {
     return console.log(error);
   }
 });
-
+//
 router.get("/catalogo/:id", consultarCatalogo, (req, res) => {
   try {
     res.json(req.autos);
@@ -51,16 +51,39 @@ router.post("/actualizar-catalogo", async (req, res) => {
 
     for (const vehiculo of response) {
       let insertVeh = formatoCatalogo(vehiculo);
+
       const docRef = db.collection("vehiculos").doc(insertVeh.id);
+      const docSnapshot = await docRef.get();
+
+      if (docSnapshot.exists) {
+        const existingData = docSnapshot.data();
+        const mergedImagenes = mergeImagenes(existingData.imagenes, insertVeh.imagenes);
+        insertVeh.imagenes = mergedImagenes;
+      }
+
       batch.set(docRef, insertVeh, { merge: true });
     }
     await batch.commit();
 
-    res.status(200).json({estado:true, message: "Sincronización exitosa" });
+    res.status(200).json({ estado: true, message: "Sincronización exitosa" });
   } catch (error) {
-    res.status(500).json({estado:false, error: "Error en la sincronización" });
+    res.status(500).json({ estado: false, error: "Error en la sincronización" });
   }
 });
+
+function mergeImagenes(existingImagenes, newImagenes) {
+  const mergedImagenes = [...existingImagenes];
+
+  for (const newImagen of newImagenes) {
+    if (!mergedImagenes.includes(newImagen)) {
+      mergedImagenes.push(newImagen);
+    }
+  }
+
+  return mergedImagenes;
+}
+
+
 
 //Desactivar Vehiculo
 router.post("/desactivar-vehiculo/:id", desactivarDisponible, (req, res) => {

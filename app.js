@@ -41,10 +41,22 @@ app.use(require('./routes/autentificacion'));
 //Vista para el back (temporal)
 app.use(require('./routes/infoempresarial'));
 app.use(express.static(__dirname));
-
+ //
 const history = require('connect-history-api-fallback');
 app.use(history());
 
+// Configurar el límite de tamaño del cuerpo de la solicitud
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
+
+
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    res.status(400).json({ error: 'Invalid JSON payload' });
+  } else {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 const PORT = process.env.PORT || 4000;
 
@@ -365,22 +377,29 @@ app.listen(PORT, () => {
  *                   maxLength: 254
  *                 telefono:
  *                   type: string
+ *                 descripcion:
+ *                   type: string
+ *                 precio:
+ *                   type: number
  *               required:
  *                 - nombre
  *                 - cedula
  *                 - correo
  *                 - telefono
+ *                 - precio
+ *                 - descripcion
  *             idasesor:
  *               type: string
- *               pattern: "^[a-zA-Z0-9]{20}$"
  *           example:
  *               idvehiculo: 6697431286937898
+ *               descripcion: "Pago de contado en efectivo"
+ *               precio: 50000000
  *               cliente:
  *                 nombre: "Jairo Caicedo"
  *                 cedula: 28986472
  *                 correo: "juansebastian@gmail.com"
  *                 telefono: "+573115609183"
- *               idasesor: "ABC123456789"
+ *               idasesor: "gT2mNEjVbaTUg2GxngLL"
  *     responses:
  *       200:
  *         description: Venta creada exitosamente
@@ -456,10 +475,6 @@ app.listen(PORT, () => {
  *               type: number
  *               minimum: 0
  *               maximum: 999999999999
- *             kilometraje:
- *               type: number
- *               minimum: 0
- *               maximum: 10000000
  *             soat:
  *               type: boolean
  *             cedula:
@@ -522,7 +537,6 @@ app.listen(PORT, () => {
  *             placa: "UED359"
  *             anio: 2023
  *             precioDueno: 30550000
- *             kilometraje: 120000
  *             fechaMatricula: "01/12/2020"
  *             soat: true
  *             prenda: "OLX"

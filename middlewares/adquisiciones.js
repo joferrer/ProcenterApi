@@ -52,13 +52,14 @@ async function adquisicionVehiculos(req, res, next) {
               "La placa del vehiculo ya existe en algun registro de la base de datos",
           });
       }
-
+ //
       if (!publicSnapshot.exists) {
         return res
           .status(400)
           .send({ estado: false, mensaje: "El ID del Publicista/Ad no eminxiste" });
       } else {
-        if (!(asesor.rol === "ASESOR" || asesor.rol === "ADMIN")) {
+        console.log(publicista.rol);
+        if (!(publicista.rol === "PUBLICISTA" || publicista.rol === "ADMIN")) {
           return res
             .status(400)
             .send({
@@ -161,7 +162,6 @@ async function adquisicionVehiculos(req, res, next) {
           motor: req.body.motor,
           placa: req.body.placa,
           anio: req.body.anio,
-          kilometraje: req.body.kilometraje,
           precioDueno: req.body.precioDueno,
           fechaMatricula: req.body.fechaMatricula,
           fechaCreacion: formatoFecha(moment().format("DD/MM/YYYY")),
@@ -230,7 +230,6 @@ async function adquisicionVehiculos(req, res, next) {
           placa: req.body.placa,
           anio: req.body.anio,
           precioDueno: req.body.precioDueno,
-          kilometraje: req.body.kilometraje,
           fechaCreacion: formatoFecha(moment().format("DD/MM/YYYY")),
           soat: true,
           prenda: req.body.prenda,

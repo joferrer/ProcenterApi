@@ -90,7 +90,7 @@ async function  obtenerResenias(req, res, next) {
   };
   
   async function activarReseña(req, res, next) {
-    try {
+    try {//
    
       const reseña = req.params.id;
       const userRef = await db.collection("reviews").doc(reseña);

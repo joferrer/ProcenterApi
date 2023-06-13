@@ -19,7 +19,7 @@ async function obtenerInfoEmpresarial(req, res, next) {
       return res.status(400).send({"estado": false, "mensaje": error});
     }
 }
-
+//
 
 async function actualizarInfoEmpresarial(req, res, next) {
   try {
