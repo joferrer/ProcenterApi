@@ -30,7 +30,7 @@ app.use((req, res, next) => {
   app.locals.db = req.db;
   next();
 });
-
+app.use(require('./routes/resenia')); 
 //routes
 app.use(require('./routes/vehiculos'));
 app.use(require('./routes/adquisiciones'));
@@ -39,7 +39,7 @@ app.use(require('./routes/usuarios'));
 app.use(require('./routes/catalogo')); 
 app.use(require('./routes/autentificacion'));
 //Vista para el back (temporal)
-
+app.use(require('./routes/infoempresarial'));
 app.use(express.static(__dirname));
 
 const history = require('connect-history-api-fallback');
@@ -91,26 +91,17 @@ app.listen(PORT, () => {
  *         description: Vehículo no encontrado
  *
 * @swagger
- * /catalogoRango/{id}:
+ * /catalogoEcommerce:
  *   get:
- *     summary: Obtener vehiculos por un rango
- *     description: Obtiene la lista de vehiculos del catalogo por medio de un valor numerico
+ *     summary: Obtener vehiculos  de 5 vehiculos de catalogo
+ *     description: Obtiene 5  vehiculos de catalogo de  FireStoreDatabase
  *     tags:
  *       - Catalogo
- *     parameters:
- *       - in: path
- *         name: id
- *         description: Cantidad de vehiculos a traer
- *         required: true
- *         schema:
- *           type: number
  *     responses:
  *       200:
- *         description: La cantidad de documentos solicitados no es válida
+ *         description: Retorna la lista de catalogo
  *       400:
- *         description: Error al desactivar el vehículo
- *       404:
- *         description: Vehículo no encontrado
+ *         description: Error al obtener vehiculos
  *
  * /actualizarPlaca:
  *   post:
@@ -751,4 +742,134 @@ app.listen(PORT, () => {
  *         description: Eliminacion de vehiculo de manera exitosa
  *       400:
  *         description: Error vehiculo inexistente en la base de datos         
+ */
+
+/**
+ * @swagger
+ * /info-empresa:
+ *   get:
+ *     summary: Consulta la informacion de la empresa
+ *     description: Obtiene la mision, vision y quienes somos en la empresa
+ *     tags:
+ *       - Informacion Empresarial
+ *     responses:
+ *       200:
+ *         description: Informacion empresarial cargado con exito
+ *       400:
+ *         description: Error al obtener la informacion empresarial
+ */
+
+/**
+ *  @swagger
+ * /actualizar-info-empresa:
+ *   put:
+ *     tags:
+ *       - Informacion Empresarial
+ *     summary: Actualiza la informacion de la empresa
+ *     description: Actualiza la mision, vision y quienes somos en la empresa
+ *     parameters:
+ *       - in: body
+ *         name: usuario
+ *         required: true
+ *         description: Campo de informacion empresarial
+ *         schema:
+ *           type: object
+ *           properties:
+ *             mision:
+ *               type: string
+ *             vision:
+ *               type: string
+ *             quienesSomos:
+ *               type: string
+ *           example:
+ *               mision: "Vendemos y compramos vehiculos en cucuta"
+ *               vision: "Nuestra vision es ser la empresa lider en el mercado de vehiculos ofreciendo un servicio de calidad y confianza"
+ *               quienesSomos: "Somos una empresa dedicados a la venta de vehiculos con el fin de satisfacer las necesidades de nuestros clientes ofreciendo un servicio de calidad y confianza"
+ *     responses:
+ *       200:
+ *         description: ¡Informacion actualizada con exito!
+ *       400:
+ *         description: Error Info Empresarial no existe
+ * 
+ */
+
+
+/**
+ * @swagger
+ * /reviews:
+ *   get:
+ *     summary: Consulta las reseñas de los clientes
+ *     description: Obtiene la reseña con el nombre del cliente y sus comentarios del vehiculo
+ *     tags:
+ *       - Resenia
+ *     responses:
+ *       200:
+ *         description: ¡Lista de reseñas cargado con exito!
+ *       400:
+ *         description: Error al obtener las resenias de los clientes
+ */
+
+/**
+ *  @swagger
+ * /agregarResena:
+ *   post:
+ *     tags:
+ *       - Resenia
+ *     summary: Agrega una reseña de un cliente en el sistema
+ *     description: Agrega una reseña con nombre del cliente y sus comentarios del vehiculo
+ *     parameters:
+ *       - in: body
+ *         name: usuario
+ *         required: true
+ *         description: Campo del reseña
+ *         schema:
+ *           type: object
+ *           properties:
+ *             nombre:
+ *               type: string
+ *             comentarios:
+ *               type: string
+ *           example:
+ *               nombre: "Pablo Camilo"
+ *               comentarios: "Excelente vehiculo 5 estrellas"
+ *     responses:
+ *       200:
+ *         description: ¡Reseña agregada con exito!
+ *       400:
+ *         description: Error la resenia  no existe
+ * /desactivarResena/{id}:
+ *   delete:
+ *     tags:
+ *     - Resenia
+ *     summary: Desactivar una resenia en el sistema
+ *     description: Desactiva una resenia  a traves de su ID como parametro en la URL
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Campo de cadena de caracteres de la ID del resena
+ *     responses:
+ *       200:
+ *         description: Reseña desactivado con exito!
+ *       400:
+ *         description: La reseña no existe  
+ * 
+ * /activarResena/{id}:
+ *   post:
+ *     tags:
+ *     - Resenia
+ *     summary: Activa una resenia en el sistema
+ *     description: Activa una resenia a traves de su ID como parametro en la URL
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Campo de cadena de caracteres de la ID de la resenia
+ *     responses:
+ *       200:
+ *         description: reseña activado con exito!
+ *       400:
+ *         description: La reseña no existe  
+ *        
+ *
  */

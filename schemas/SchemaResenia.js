@@ -23,7 +23,7 @@ const SchemaResenia = Joi.object({
       'string.empty': 'La reseña no debe estar vacía.',
       'string.min': 'La reseña debe tener al menos {#limit} caracteres.',
       'string.max': 'La reseña no debe exceder los {#limit} caracteres.',
-      'string.pattern.base': 'La reseña solo puede contener letras y espacios.',
+      'string.pattern.base': 'La reseña solo puede contener numeros, letras y espacios.',
       'any.required': 'La reseña es un campo requerido.',
     })
   
