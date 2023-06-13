@@ -122,7 +122,7 @@ router.post('/subir-imagen', async (req, res) => {
       }
 
       for (const base64Image of req.body.imagenes) {
-        const base64Data = base64Image.replace(/^data:image\/[^;]+;base64,/, '');
+        const base64Data = base64Image.replace(/^data:image\/jpeg;base64,/, '');
         const binaryData = Buffer.from(base64Data, 'base64');
 
         const fileName = `${uuid.v1()}.png`;
