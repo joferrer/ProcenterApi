@@ -130,7 +130,7 @@ router.post('/subir-imagen', async (req, res) => {
 
         // Redimensionar la imagen utilizando sharp
         const resizedImageBuffer = await sharp(binaryData)
-          .resize(800) // Define el ancho máximo de la imagen redimensionada
+          .resize(1250) // Define el ancho máximo de la imagen redimensionada
           .toBuffer();
 
         blobService.createBlockBlobFromText(containerName, fileName, resizedImageBuffer, {
