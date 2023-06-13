@@ -45,18 +45,7 @@ app.use(express.static(__dirname));
 const history = require('connect-history-api-fallback');
 app.use(history());
 
-// Configurar el límite de tamaño del cuerpo de la solicitud
-app.use(express.json({ limit: '100mb' }));
-app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
-
-app.use((err, req, res, next) => {
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    res.status(400).json({ error: 'Invalid JSON payload' });
-  } else {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
 
 const PORT = process.env.PORT || 4000;
 
