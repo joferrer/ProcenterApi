@@ -26,41 +26,7 @@ async function consultarCatalogo(req, res, next) {
 }
 
 
-async function consultarCatalogoRango(req, res, next) {
-  try {
-    const collectionRef = await db.collection('vehiculos');
-    const totalDocumentos = await collectionRef.get().then(snapshot => snapshot.size);
 
-    const cantidadDocumentos = parseInt(req.params.id);
-
-    if (isNaN(cantidadDocumentos)) {
-      return res.status(400).json({ mensaje: "El parámetro 'cantidadDocumentos' debe ser un número válido" });
-    }
-
-    if (cantidadDocumentos < 0 || cantidadDocumentos > totalDocumentos) {
-      return res.status(400).json({ mensaje: "La cantidad de documentos solicitados no es válida" });
-    }
-
-    const querySnapshot = await collectionRef.where('disponible', '==', true).limit(cantidadDocumentos).get();
-    const autos = [];
-
-    if (querySnapshot.empty) {
-      req.autos = { estado: false, mensaje: "No hay ningún vehículo disponible en el catálogo" };
-      next();
-    }
-
-    querySnapshot.forEach((doc) => {
-      autos.push(doc.data());
-    });
-
-    req.autos =  { estado: true, mensaje: "Rango de Vehiculos consultado con exito", data: autos }
-    
-    next();
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ mensaje: "Ocurrió un error en el servidor" });
-  }
-}
 
 
 
@@ -181,4 +147,4 @@ async function consultarImagenes(idVehiculo) {
 
 
 
-module.exports = { consultarCatalogo, desactivarDisponible, consultarCatalogoRango,  actualizarPlaca, agregarImagen,consultarImagenes }
+module.exports = { consultarCatalogo, desactivarDisponible,  actualizarPlaca, agregarImagen,consultarImagenes }
