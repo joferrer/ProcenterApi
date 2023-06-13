@@ -41,7 +41,7 @@ app.use(require('./routes/autentificacion'));
 //Vista para el back (temporal)
 app.use(require('./routes/infoempresarial'));
 app.use(express.static(__dirname));
-
+ //
 const history = require('connect-history-api-fallback');
 app.use(history());
 

@@ -52,7 +52,7 @@ async function adquisicionVehiculos(req, res, next) {
               "La placa del vehiculo ya existe en algun registro de la base de datos",
           });
       }
-
+ //
       if (!publicSnapshot.exists) {
         return res
           .status(400)

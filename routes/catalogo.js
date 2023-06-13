@@ -26,7 +26,7 @@ router.get("/catalogo", consultarCatalogo, (req, res) => {
     return console.log(error);
   }
 });
-
+//
 router.get("/catalogo/:id", consultarCatalogo, (req, res) => {
   try {
     res.json(req.autos);

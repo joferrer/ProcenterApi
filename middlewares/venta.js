@@ -47,7 +47,7 @@ async function cventa(req, res, next) {
     const asesorRef = db.collection("usuarios").doc(idasesor);
     const asesorSnapshot = await asesorRef.get();
     const asesor = asesorSnapshot.data();
-
+//
  
 
     if (!vehiculoSnapshot.exists) {

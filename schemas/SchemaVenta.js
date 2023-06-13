@@ -118,7 +118,7 @@ precio: Joi.number()
 
     telefono: telefonoSchema,
   }),
-
+//
   idasesor: Joi.string()
     .regex(firestoreIdRegex)
     .required()
