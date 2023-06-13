@@ -26,6 +26,26 @@ async function consultarCatalogo(req, res, next) {
 }
 
 
+async function consultarCatalogoEcommerce(req, res, next) {
+  try {
+    const collectionRef = await db.collection('vehiculos');
+    const querySnapshot = await collectionRef.where('disponible', '==', true).limit(5).get();
+    const autos = [];
+    if (querySnapshot.empty) {
+      req.autos = { estado: false, mensaje: "No hay ningún vehículo disponible en el catálogo" };
+      next();
+    } else {
+      querySnapshot.forEach((doc) => {
+        autos.push(doc.data());
+      });
+      req.autos = autos;
+      next();
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ estado: false, mensaje: "Ha ocurrido un error al consultar el catálogo" });
+  }
+}
 
 
 
@@ -147,4 +167,4 @@ async function consultarImagenes(idVehiculo) {
 
 
 
-module.exports = { consultarCatalogo, desactivarDisponible,  actualizarPlaca, agregarImagen,consultarImagenes }
+module.exports = { consultarCatalogo,consultarCatalogoEcommerce, desactivarDisponible,  actualizarPlaca, agregarImagen,consultarImagenes }

@@ -7,6 +7,7 @@ const {
   desactivarDisponible,
   actualizarPlaca,
   agregarImagen,
+  consultarCatalogoEcommerce,
   consultarImagenes,
 } = require("../middlewares/catalogo");
 //AZURE CREDENTIALS
@@ -27,6 +28,14 @@ router.get("/catalogo", consultarCatalogo, (req, res) => {
 });
 
 router.get("/catalogo/:id", consultarCatalogo, (req, res) => {
+  try {
+    res.json(req.autos);
+  } catch (error) {
+    return console.log(error);
+  }
+});
+
+router.get("/catalogoEcommerce", consultarCatalogoEcommerce, (req, res) => {
   try {
     res.json(req.autos);
   } catch (error) {
