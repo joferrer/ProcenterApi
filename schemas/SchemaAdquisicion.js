@@ -88,12 +88,6 @@ modelo: Joi.string().regex(/^[\w\s]+$/).required()
       'number.max': 'El precio del dueño no puede ser mayor a 999,999,999,999',
       'any.required': 'El precio del dueño es obligatorio'
     }),
-    kilometraje: Joi.number().required()
-    .messages({
-      'number.base': 'El kilometraje debe de ser un número',
-      'number.empty': 'El kilometraje no puede estar vacío',
-      'any.required': 'El kilometraje es obligatorio'
-    }),
     fechaMatricula: extendedJoi.date().format('DD/MM/YYYY').max('now').required(),
   soat: Joi.boolean().required()
     .messages({

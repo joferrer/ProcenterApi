@@ -41,6 +41,35 @@ const schemaVenta = Joi.object({
     'number.min': 'El vehiculo debe tener al menos 12 dígitos.',
     'number.max': 'El vehiculo debe tener como máximo 25 dígitos.',
   }),  
+  descripcion: Joi.string()
+  .min(3)
+  .max(1024)
+  .regex(/^[a-zA-Z ]+$/)
+  .required()
+  .messages({
+    'string.base': 'La descripción debe ser una cadena de texto.',
+    'string.empty': 'La descripción no debe estar vacía.',
+    'string.min': 'La descripción debe tener al menos {#limit} caracteres.',
+    'string.max': 'La descripción no debe exceder los {#limit} caracteres.',
+    'string.pattern.base': 'La descripción solo puede contener letras y espacios.',
+    'any.required': 'La descripción es un campo requerido.',
+  }),
+
+precio: Joi.number()
+  .positive()
+  .min(1000000)
+  .max(99999999999)
+  .required()
+  .messages({
+    'number.base': 'El precio debe ser un número.',
+    'number.empty': 'El precio no debe estar vacío.',
+    'number.integer': 'El precio debe ser un número entero.',
+    'number.positive': 'El precio debe ser un número positivo.',
+    'number.min': 'El precio debe ser al menos {#limit}.',
+    'number.max': 'El precio no puede ser mayor a {#limit}.',
+    'any.required': 'El precio es un campo requerido.',
+  }),
+
   cliente: Joi.object({
     nombre: Joi.string()
       .min(3)
@@ -55,6 +84,10 @@ const schemaVenta = Joi.object({
         'string.pattern.base': 'El nombre solo puede contener letras y espacios.',
         'any.required': 'El nombre es un campo requerido.',
       }),
+
+
+    
+
 
     cedula: Joi.number()
       .positive()

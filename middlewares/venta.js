@@ -28,7 +28,7 @@ function formatoFecha(fecha) {
 
 async function cventa(req, res, next) {
   try {
-
+    console.log(req.body)
     const { error } = schemaVenta.validate(req.body);
     if (error) {
       return res.status(400).send({ "estado": false, "error": error.details[0].message });
@@ -121,6 +121,8 @@ async function cventa(req, res, next) {
       const venta = {
         id: db.collection("ventas").doc().id,
         fechaCreacion: formatoFecha(moment().format('DD/MM/YYYY')),
+        descripcion: req.body.descripcion,
+        precio: req.body.precio,
         cliente: {
           id: idc,
           nombre: nombrec,
@@ -172,6 +174,8 @@ async function cventa(req, res, next) {
     const venta = {
       id: db.collection("ventas").doc().id,
       fechaCreacion: formatoFecha(moment().format('DD/MM/YYYY')),
+      descripcion: req.body.descripcion,
+      precio: req.body.precio,
       cliente: {
         id: idc,
         nombre: nombrec,
