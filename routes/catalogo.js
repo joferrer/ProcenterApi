@@ -13,7 +13,7 @@ const {
 //AZURE CREDENTIALS
 const azure = require('azure-storage');
 const blobService = azure.createBlobService(process.env.AZURE_STORAGE_ACCOUNT, process.env.AZURE_STORAGE_ACCESS_KEY);
-
+const sharp = require('sharp');
 const { traerCatalogo } = require("../helpers/catalogo");
 const { formatoCatalogo } = require("../helpers/formatoCatalogo");
 const { id } = require("../schemas/SchemaVehiculo");
@@ -93,8 +93,9 @@ router.post("/actualizarPlaca", actualizarPlaca, (req, res) => {
 
 // Ruta para subir la imagen a Amazon S3 
 
-router.post('/subir-imagen', async (req, res) => {
 
+
+router.post('/subir-imagen', async (req, res) => {
   if (!req.body.imagenes || req.body.imagenes.length === 0) {
     return res.status(400).json({
       estado: false,
@@ -115,7 +116,7 @@ router.post('/subir-imagen', async (req, res) => {
 
     const containerName = 'procenter2';
 
-    blobService.createContainerIfNotExists(containerName, { publicAccessLevel: 'blob' }, (error) => {
+    blobService.createContainerIfNotExists(containerName, { publicAccessLevel: 'blob' }, async (error) => {
       if (error) {
         console.error(error);
         return res.status(500).json({ estado: false, mensaje: 'Error al crear el contenedor' });
@@ -127,7 +128,12 @@ router.post('/subir-imagen', async (req, res) => {
 
         const fileName = `${uuid.v1()}.png`;
 
-        blobService.createBlockBlobFromText(containerName, fileName, binaryData, {
+        // Redimensionar la imagen utilizando sharp
+        const resizedImageBuffer = await sharp(binaryData)
+          .resize(800) // Define el ancho máximo de la imagen redimensionada
+          .toBuffer();
+
+        blobService.createBlockBlobFromText(containerName, fileName, resizedImageBuffer, {
           contentSettings: {
             contentType: 'image/png',
           },
