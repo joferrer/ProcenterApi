@@ -165,6 +165,38 @@ async function consultarImagenes(idVehiculo) {
   }
 }
 
+async function consultarTodosLosRegistros(req, res, next) {
+try {
+  const collections = await db.listCollections();
+
+  // Crear un arreglo para almacenar todos los registros
+  const registros = [];
+
+  for (const collectionRef of collections) {
+    const snapshot = await collectionRef.get();
+
+    snapshot.forEach((doc) => {
+      // Obtener los datos de cada documento
+      const datos = doc.data();
+      
+      // Agregar los datos al arreglo de registros
+      registros.push(datos);
+      console.log(registros)
+    });
+    
+  }
+
+  // Retornar todos los registros
+  return { estado: true, mensaje: 'consulta elaborado con exito', data: registros };;
+  next();
+} catch (error) {
+  return { estado: false, mensaje: 'Ha ocurrido al obtener los registros de la base de datos' };
+  throw error;
+}
+}
 
 
-module.exports = { consultarCatalogo,consultarCatalogoEcommerce, desactivarDisponible,  actualizarPlaca, agregarImagen,consultarImagenes }
+
+
+
+module.exports = { consultarCatalogo,consultarCatalogoEcommerce, desactivarDisponible,  actualizarPlaca, agregarImagen,consultarImagenes, consultarTodosLosRegistros }

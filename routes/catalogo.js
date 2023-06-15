@@ -9,6 +9,7 @@ const {
   agregarImagen,
   consultarCatalogoEcommerce,
   consultarImagenes,
+  consultarTodosLosRegistros,
 } = require("../middlewares/catalogo");
 //AZURE CREDENTIALS
 const azure = require('azure-storage');
@@ -48,21 +49,37 @@ router.post("/actualizar-catalogo", async (req, res) => {
   try {
     const response = await traerCatalogo();
     const batch = db.batch();
+    const promises = [];
 
     for (const vehiculo of response) {
       let insertVeh = formatoCatalogo(vehiculo);
 
       const docRef = db.collection("vehiculos").doc(insertVeh.id);
-      const docSnapshot = await docRef.get();
+      const docSnapshotPromise = docRef.get();
+      promises.push(docSnapshotPromise);
 
-      if (docSnapshot.exists) {
-        const existingData = docSnapshot.data();
-        const mergedImagenes = mergeImagenes(existingData.imagenes, insertVeh.imagenes);
-        insertVeh.imagenes = mergedImagenes;
+      const docSnapshot = await docSnapshotPromise;
+      const existingData = docSnapshot.data();
+
+      if (!docSnapshot.exists) {
+        // Nuevo elemento, agregar la propiedad "disponible"
+        insertVeh = {
+          ...insertVeh,
+          disponible: true,
+        };
+      } else {
+        // Elemento existente, mantener el valor actual de "disponible"
+        insertVeh.disponible = existingData.disponible;
       }
+
+      const mergedImagenes = mergeImagenes(existingData?.imagenes || [], insertVeh.imagenes);
+      insertVeh.imagenes = mergedImagenes;
 
       batch.set(docRef, insertVeh, { merge: true });
     }
+
+    await Promise.all(promises);
+
     await batch.commit();
 
     res.status(200).json({ estado: true, message: "Sincronización exitosa" });
@@ -70,6 +87,7 @@ router.post("/actualizar-catalogo", async (req, res) => {
     res.status(500).json({ estado: false, error: "Error en la sincronización" });
   }
 });
+
 
 function mergeImagenes(existingImagenes, newImagenes) {
   const mergedImagenes = [...existingImagenes];
@@ -185,6 +203,14 @@ router.post('/subir-imagen', async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ estado: false, mensaje: 'Error al subir las imágenes a Azure Blob Storage' });
+  }
+});
+
+router.get("/registroFireStore", consultarTodosLosRegistros, (req, res) => {
+  try {
+    res.json(req.autos);
+  } catch (error) {
+    return console.log(error);
   }
 });
 

@@ -26,6 +26,21 @@ async function adquisicionVehiculos(req, res, next) {
       res.status(400).send({ estado: false, error: error.details[0].message });
       next();
     } else {
+      const adquiscionRef = await db
+        .collection("adquisiciones")
+        .where("placa", "==", req.body.placa);
+      const snapshot = await adquiscionRef.get();
+
+      if (!snapshot.empty) {
+        return res
+          .status(400)
+          .send({
+            estado: false,
+            mensaje:
+              "La placa del vehiculo ya existe en algun registro de la base de datos",
+      });
+      }
+
       const idpublic = req.body.idpublic;
       const publicRef = await db.collection("usuarios").doc(idpublic);
       const publicSnapshot = await publicRef.get();
@@ -38,25 +53,10 @@ async function adquisicionVehiculos(req, res, next) {
         .where("rol", "==", "CLIENTE")
         .get();
 
-      const adquiscionRef = await db
-        .collection("vehiculos")
-        .where("placa", "==", req.body.placa);
-      const snapshot = await adquiscionRef.get();
-
-      if (!snapshot.empty) {
-        return res
-          .status(400)
-          .send({
-            estado: false,
-            mensaje:
-              "La placa del vehiculo ya existe en algun registro de la base de datos",
-          });
-      }
- //
       if (!publicSnapshot.exists) {
         return res
           .status(400)
-          .send({ estado: false, mensaje: "El ID del Publicista/Ad no eminxiste" });
+          .send({ estado: false, mensaje: "El ID del Publicista/Ad no existe" });
       } else {
         console.log(publicista.rol);
         if (!(publicista.rol === "PUBLICISTA" || publicista.rol === "ADMIN")) {
@@ -74,7 +74,7 @@ async function adquisicionVehiculos(req, res, next) {
               .send({
                 estado: false,
                 mensaje:
-                  "El ID no corresponde a un usuario con rol de publicista/admin que se encuentre activo",
+                  "El ID no corresponde a un usuario con rol de publicista/admin activo",
               });
           }
         }
@@ -230,6 +230,7 @@ async function adquisicionVehiculos(req, res, next) {
           placa: req.body.placa,
           anio: req.body.anio,
           precioDueno: req.body.precioDueno,
+          fechaMatricula: req.body.fechaMatricula,
           fechaCreacion: formatoFecha(moment().format("DD/MM/YYYY")),
           soat: true,
           prenda: req.body.prenda,
@@ -245,8 +246,7 @@ async function adquisicionVehiculos(req, res, next) {
           },
           publicista,
         };
-        console.log(adquisicion);
-        const usuariodoc = await db
+        const adquiscion = await db
           .collection("adquisiciones")
           .doc(adquisicion.id)
           .set(adquisicion);
@@ -261,10 +261,12 @@ async function adquisicionVehiculos(req, res, next) {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).send({ estado: false, mensaje: error });
-    next();
+    res.status(500).send({ estado: false, mensaje: "Error en el servidor" });
   }
 }
+
+
+
 
 async function obtenerAdquisicion(req, res, next) {
   try {
