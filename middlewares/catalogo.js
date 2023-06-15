@@ -43,7 +43,7 @@ async function consultarCatalogoEcommerce(req, res, next) {
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ estado: false, mensaje: "Ha ocurrido un error al consultar el catálogo" });
+    return res.status(400).json({ estado: false, mensaje: "Ha ocurrido un error al consultar el catálogo" });
   }
 }
 

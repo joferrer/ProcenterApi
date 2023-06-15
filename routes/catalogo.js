@@ -84,7 +84,7 @@ router.post("/actualizar-catalogo", async (req, res) => {
 
     res.status(200).json({ estado: true, message: "Sincronización exitosa" });
   } catch (error) {
-    res.status(500).json({ estado: false, error: "Error en la sincronización" });
+    res.status(400).json({ estado: false, error: "Error en la sincronización" });
   }
 });
 
@@ -160,7 +160,7 @@ router.post('/subir-imagen', async (req, res) => {
     blobService.createContainerIfNotExists(containerName, { publicAccessLevel: 'blob' }, async (error) => {
       if (error) {
         console.error(error);
-        return res.status(500).json({ estado: false, mensaje: 'Error al crear el contenedor' });
+        return res.status(400).json({ estado: false, mensaje: 'Error al crear el contenedor' });
       }
 
       for (const base64Image of req.body.imagenes) {
@@ -181,7 +181,7 @@ router.post('/subir-imagen', async (req, res) => {
         }, (error) => {
           if (error) {
             console.error(error);
-            return res.status(500).json({ estado: false, mensaje: 'Error al subir la imagen' });
+            return res.status(400).json({ estado: false, mensaje: 'Error al subir la imagen' });
           }
 
           const imageUrl = blobService.getUrl(containerName, fileName);
@@ -194,7 +194,7 @@ router.post('/subir-imagen', async (req, res) => {
               })
               .catch(error => {
                 console.error(error);
-                return res.status(500).json({ estado: false, mensaje: 'Error al agregar las imágenes' });
+                return res.status(400).json({ estado: false, mensaje: 'Error al agregar las imágenes' });
               });
           }
         });
@@ -202,7 +202,7 @@ router.post('/subir-imagen', async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ estado: false, mensaje: 'Error al subir las imágenes a Azure Blob Storage' });
+    return res.status(400).json({ estado: false, mensaje: 'Error al subir las imágenes a Azure Blob Storage' });
   }
 });
 
