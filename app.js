@@ -91,6 +91,20 @@ app.listen(PORT, () => {
  *       404:
  *         description: Vehículo no encontrado
  *
+/**
+ * @swagger
+ * /actualizar-catalogo:
+ *   post:
+ *     summary: Actualiza el catalogo manualmente
+ *     description: Actualiza el catalogo de manera manual
+ *     tags:
+ *       - Catalogo
+ *     responses:
+ *       200:
+ *         description: Sincronización de catalogo exitosa
+ *       400:
+ *         description: Error al actualizar el catalogo
+ *
 * @swagger
  * /catalogoEcommerce:
  *   get:

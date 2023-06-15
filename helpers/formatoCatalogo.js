@@ -46,8 +46,7 @@ const Vehiculo = require('../schemas/SchemaVehiculo.js');
       rin : rin,
       imagenes : imagenes,
       otros: otros,
-      precio: precio,
-      disponible: true
+      precio: precio
     };
     
     JSON.stringify(vehiculo);
