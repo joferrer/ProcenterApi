@@ -19,7 +19,7 @@ router.post('/registraruser', async (req, res) => {
       }
     } catch (error) {
         console.log(error);
-      res.status(500).json({ success: false, message: error });
+      res.status(400).json({ success: false, message: error });
     }
   });
 
@@ -40,7 +40,7 @@ router.post('/login', async (req, res) => {
         res.status(400).json({ success: false, message: result.message });
       }
     } catch (error) {
-      res.status(500).json({ success: false, message: 'Error en el servidor' });
+      res.status(400).json({ success: false, message: 'Error en el servidor' });
     }
   });
 

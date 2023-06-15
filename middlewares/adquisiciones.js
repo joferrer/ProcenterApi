@@ -23,7 +23,7 @@ async function adquisicionVehiculos(req, res, next) {
     const { error } = SchemaAdquisicion.validate(req.body);
 
     if (error) {
-      res.status(400).send({ estado: false, error: error.details[0].message });
+      res.status(400).send({ estado: false, mensaje: error.details[0].message });
       next();
     } else {
       const adquiscionRef = await db
@@ -97,7 +97,7 @@ async function adquisicionVehiculos(req, res, next) {
         if (error) {
           return res
             .status(400)
-            .send({ estado: false, error: error.details[0].message });
+            .send({ estado: false, mensaje: error.details[0].message });
         }
 
         if (!clienteSnapshotCedula.empty) {
@@ -130,7 +130,7 @@ async function adquisicionVehiculos(req, res, next) {
 
         const usuario = {
           id: db.collection("usuarios").doc().id,
-          nombre: req.body.nombre,
+          nombre: req.body.nombredueno,
           cedula: req.body.cedula,
           correo: req.body.correo,
           telefono: req.body.telefono,
@@ -261,7 +261,7 @@ async function adquisicionVehiculos(req, res, next) {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).send({ estado: false, mensaje: "Error en el servidor" });
+    res.status(400).send({ estado: false, mensaje: "Error en el servidor" });
   }
 }
 
